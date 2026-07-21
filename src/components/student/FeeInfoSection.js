@@ -7,11 +7,23 @@ const FeeInfoSection = ({ form, onChange }) => {
   return (
     <>
       <FormField
-        label="Online Registration fee Reference No."
-        name="refNo"
-        value={form.refNo}
-        onChange={onChange}
-      />
+  label={
+    <>
+      Online Registration Fee Reference No. paid on{" "}
+      <a
+        href="https://ggu.ac.in/onlinepayment/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#2563eb", textDecoration: "underline" }}
+      >
+        https://ggu.ac.in/onlinepayment/
+      </a>
+    </>
+  }
+  name="refNo"
+  value={form.refNo}
+  onChange={onChange}
+/>
 
       <RadioGroup
         label="Amount"
@@ -19,14 +31,14 @@ const FeeInfoSection = ({ form, onChange }) => {
         value={form.amount}
         onChange={onChange}
         options={[
-          { value: "1000", label: "1000/-" },
-          { value: "750", label: "750/-" },
+          { value: "500", label: "500/-" },
+          { value: "300", label: "300/-" },
         ]}
         required
       />
 
       <FormField
-        label="Name of Drawee Bank"
+        label="Enter the TransactionId /UTR"
         name="bank"
         value={form.bank}
         onChange={onChange}

@@ -6,7 +6,7 @@ const DocumentUploadSection = ({ form, onChange }) => {
   return (
     <>
       <FormField
-        label="Upload scan PDF copy of Fee Receipt (Upload 1 supported file. PDF. Max 2MB)"
+        label="Upload scan PDF copy of Fee Receipt (Upload 1 supported file. PDF. 200KB ~ 500KB)"
         name="feeReceipt"
         type="file"
         accept=".pdf"

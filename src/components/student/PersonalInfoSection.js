@@ -4,6 +4,7 @@ import RadioGroup from "./RadioGroup";
 import "../../App.css";
 
 const PersonalInfoSection = ({ form, onChange }) => {
+  let qualifyingExamOptions = ["B.Tech.", "M.Sc", "MCA", "Any other"];
   return (
     <>
       <FormField
@@ -75,7 +76,16 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="Qualifying Exam / Class 12th Percentage (Aggregate Marks and Board)"
+        label="Upload Class 10th Marksheet"
+        name="marksheet10"
+        type="file"
+        accept=".pdf"
+        onChange={onChange}
+        required
+      />
+
+      <FormField
+        label="Fill 12th / Equivalent Certificate Aggregate percentage of Marks"
         name="marks12"
         value={form.marks12}
         onChange={onChange}
@@ -83,7 +93,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="Upload Class 12th Marksheet"
+        label="Upload Class 12th Marksheet / Equivalent Certificate Marksheets"
         name="marksheet12"
         type="file"
         accept=".pdf"
@@ -92,7 +102,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="B.Tech. / Any other qualifying Examinationh Percentage (Aggregate Marks or CGPA)"
+        label="B.Tech. / Any other qualifying Examination Percentage (Aggregate Percentage or CGPA)"
         name="marksBTech"
         value={form.marksBTech}
         onChange={onChange}
@@ -100,54 +110,126 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="Upload Graduation Marksheet"
-        name="marksheetBTech"
-        type="file"
-        accept=".pdf"
+        label="Qualifing Exam Passed"
+        name="qualifyExam"
+        type="select"
+        value={form.qualifyExam}
         onChange={onChange}
+        options={qualifyingExamOptions}
+        required
+      />
+      {/* Conditional Field */}
+      {form.qualifyExam === "B.Tech." && (
+        <FormField
+          label="Branch of Study"
+          name="branchOfStudy"
+          type="text"
+          value={form.branchOfStudy}
+          onChange={onChange}
+          placeholder="Enter your branch (e.g. Computer Science)"
+          required
+        />
+      )}
+
+      {form.qualifyExam === "M.Sc" && (
+        <FormField
+          label="Subject of Study"
+          name="subjectOfStudy"
+          type="text"
+          value={form.subjectOfStudy}
+          onChange={onChange}
+          placeholder="Enter your subject"
+          required
+        />
+      )}
+
+      {form.qualifyExam === "MCA" && (
+        <FormField
+          label="Subject of Study"
+          name="subjectOfStudy"
+          type="text"
+          value={form.subjectOfStudy}
+          onChange={onChange}
+          placeholder="Enter your subject"
+          required
+        />
+      )}
+
+      {form.qualifyExam === "Any other" && (
+        <FormField
+          label="Please Specify"
+          name="otherQualification"
+          type="text"
+          value={form.otherQualification}
+          onChange={onChange}
+          placeholder="Specify your qualification"
+          required
+        />
+      )}
+
+      {qualifyingExamOptions.includes(form.qualifyExam) && (
+        <FormField
+          label="Upload Qualifying Exam Certificate"
+          name="gateQualifyExam"
+          type="file"
+          accept=".pdf"
+          onChange={onChange}
+          required
+        />
+      )}
+
+      <RadioGroup
+        label="Have you Qualified for GATE Exam?"
+        name="gateQualified"
+        value={form.gateQualified}
+        onChange={onChange}
+        options={[
+          { value: "No", label: "No" },
+          { value: "Yes", label: "Yes" },
+        ]}
         required
       />
 
-      <FormField
-        label="GATE Application Number"
-        name="applicationNum"
-        value={form.applicationNum}
-        onChange={onChange}
-        required
-      />
+      {form.gateQualified === "Yes" && (
+        <FormField
+          label="GATE Application Number"
+          name="applicationNum"
+          value={form.applicationNum}
+          onChange={onChange}
+          required
+        />
+      )}
 
-      <FormField
-        label="CRL rank"
-        name="crlRank"
-        value={form.crlRank}
-        onChange={onChange}
-        required
-      />
+      {form.gateQualified === "Yes" && (
+        <FormField
+          label="GATE Year Of Examination"
+          name="yearOfExam"
+          value={form.yearOfExam}
+          onChange={onChange}
+          required
+        />
+      )}
 
-      <FormField
-        label="GATE Year Of Examination"
-        name="yearOfExam"
-        value={form.yearOfExam}
-        onChange={onChange}
-        required
-      />
+      {form.gateQualified === "Yes" && (
+        <FormField
+          label="Gate Score"
+          name="gateScore"
+          value={form.gateScore}
+          onChange={onChange}
+          required
+        />
+      )}
 
-      <FormField
-        label="Gate Score"
-        name="gateScore"
-        value={form.gateScore}
-        onChange={onChange}
-        required
-      />
-
-      <FormField
-        label="Uplaod GATE Scorecard and Admit Card(in a Single PDF file)"
-        name="gateScorecard"
-        type="file"
-        accept=".pdf"
-        onChange={onChange}
-        required
-      />
+      {form.gateQualified === "Yes" && (
+        <FormField
+          label="Uplaod GATE Scorecard and Admit Card(in a Single PDF file)"
+          name="gateScorecard"
+          type="file"
+          accept=".pdf"
+          onChange={onChange}
+          required
+        />
+      )}
 
       <FormField
         label="Category"
@@ -159,9 +241,43 @@ const PersonalInfoSection = ({ form, onChange }) => {
         required
       />
 
-      {form.category && form.category !== "Gen" && (
+      {form.category && form.category === "Gen-EWS" && (
         <FormField
-          label="Upload Category Certificate (PDF)"
+          label="Upload Gen-EWS Certificate (PDF)"
+          helperText="Upload category certificate issued on or after April 01, 2026 or should have mentioned validity at least upto August 31, 2026."
+          name="categoryCert"
+          type="file"
+          onChange={onChange}
+          accept=".pdf"
+          required
+        />
+      )}
+
+      {form.category && form.category === "OBC-NCL" && (
+        <FormField
+          label="Upload OBC-NCL Certificate (PDF)"
+          helperText="Upload category certificate issued on or after April 01, 2026 or should have mentioned validity at least upto August 31, 2026."
+          name="categoryCert"
+          type="file"
+          onChange={onChange}
+          accept=".pdf"
+          required
+        />
+      )}
+
+      {form.category && form.category === "SC" && (
+        <FormField
+          label="Upload SC Certificate (PDF)"
+          name="categoryCert"
+          type="file"
+          onChange={onChange}
+          accept=".pdf"
+          required
+        />
+      )}
+      {form.category && form.category === "ST" && (
+        <FormField
+          label="Upload ST Certificate (PDF)"
           name="categoryCert"
           type="file"
           onChange={onChange}
@@ -193,7 +309,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
       )}
 
       <RadioGroup
-        label="Are you Already Admitted in GGV Bilaspur through JOSAA/CSAB (2026-27)"
+        label="Are you Already Admitted in GGV Bilaspur through CCMT-2026 Counseling"
         name="admissionStatus"
         value={form.admissionStatus}
         onChange={onChange}
@@ -207,14 +323,24 @@ const PersonalInfoSection = ({ form, onChange }) => {
       {form.admissionStatus === "Yes" && (
         <div>
           <FormField
-        label="Branch Name"
-        name="branchName"
-        type="select"
-        value={form.branchName}
-        onChange={onChange}
-        options={["CSE", "IT", "ECE", "EE", "Mechanical", "Civil", "Chemical","IPE", "AI & DS","Animation & VFX"]}
-        required
-      />
+            label="Program Name"
+            name="branchName"
+            type="select"
+            value={form.branchName}
+            onChange={onChange}
+            options={[
+              "Computer Science & Engineering",
+              "Information Technology",
+              "Structural Engineering",
+              "Electronics & Communication Engineering",
+              "CAD CAM & Robotics",
+              "Chemical Engineering",
+              "Mechanical Engineering",
+              "Water Resources & Environmental Engineering",
+              "Geotechnical Engineering",
+            ]}
+            required
+          />
           <FormField
             label="Upload Provisional Allotment Letter"
             name="allotmentLetter"

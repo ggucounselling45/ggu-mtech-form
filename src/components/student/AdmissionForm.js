@@ -48,6 +48,7 @@ const AdmissionForm = ({
     allotmentLetter: null,
     pwdCert: null,
     declaration: false,
+    mailDeclaration: false,
   });
 
   const handleChange = (e) => {

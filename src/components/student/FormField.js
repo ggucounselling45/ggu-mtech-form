@@ -11,6 +11,7 @@ const FormField = ({
   required = false, 
   options = [], 
   accept,
+  helperText,
   rows 
 }) => {
   const renderInput = () => {
@@ -40,6 +41,14 @@ const FormField = ({
     }
 
     return (
+      <div className="mb-4">
+      {
+        !helperText ? null : (
+          <p style={{ fontSize: "11px", color: "#4B5563" }}>
+            {helperText}
+          </p>
+        )
+      }
       <input
         type={type}
         name={name}
@@ -48,6 +57,7 @@ const FormField = ({
         onChange={onChange}
         accept={accept}
       />
+      </div>
     );
   };
 
