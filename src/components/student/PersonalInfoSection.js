@@ -179,7 +179,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
       )}
 
       <RadioGroup
-        label="Have you Qualified for GATE Exam?"
+        label="Have you Qualified GATE Exam?"
         name="gateQualified"
         value={form.gateQualified}
         onChange={onChange}
