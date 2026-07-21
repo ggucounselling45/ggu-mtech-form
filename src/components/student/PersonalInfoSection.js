@@ -92,7 +92,24 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="JEE Main 2025 Application Number"
+        label="B.Tech. / Any other qualifying Examinationh Percentage (Aggregate Marks or CGPA)"
+        name="marksBTech"
+        value={form.marksBTech}
+        onChange={onChange}
+        required
+      />
+
+      <FormField
+        label="Upload Graduation Marksheet"
+        name="marksheetBTech"
+        type="file"
+        accept=".pdf"
+        onChange={onChange}
+        required
+      />
+
+      <FormField
+        label="GATE Application Number"
         name="applicationNum"
         value={form.applicationNum}
         onChange={onChange}
@@ -108,8 +125,24 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="Uplaod JEE(mains) Scorecard and Admit Card(in a Single PDF file)"
-        name="jeeScorecard"
+        label="GATE Year Of Examination"
+        name="yearOfExam"
+        value={form.yearOfExam}
+        onChange={onChange}
+        required
+      />
+
+      <FormField
+        label="Gate Score"
+        name="gateScore"
+        value={form.gateScore}
+        onChange={onChange}
+        required
+      />
+
+      <FormField
+        label="Uplaod GATE Scorecard and Admit Card(in a Single PDF file)"
+        name="gateScorecard"
         type="file"
         accept=".pdf"
         onChange={onChange}
@@ -160,7 +193,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
       )}
 
       <RadioGroup
-        label="Are you Already Admitted in GGV Bilaspur through JOSAA/CSAB (2025-26)"
+        label="Are you Already Admitted in GGV Bilaspur through JOSAA/CSAB (2026-27)"
         name="admissionStatus"
         value={form.admissionStatus}
         onChange={onChange}

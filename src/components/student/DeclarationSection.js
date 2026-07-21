@@ -12,9 +12,9 @@ const DeclarationSection = ({ form, onChange }) => {
           I, hereby, declare that all the particulars stated by me in this
           application form are true to the best of my knowledge and belief. I
           have read the guideline for spot counselling for admission against
-          vacant seat in the b.tech first year session 2024-25 of GGU, Bilaspur
-          uploaded on the University Website https://ggu.ac.in/ . I shall abide
-          by the Terms and conditions therein. It is entirely my responsibility
+          vacant seat in the M.Tech first year session 2026-27 of GGU, Bilaspur
+          uploaded on the University Website <a href="https://ggu.ac.in/">https://ggu.ac.in/</a> . I shall abide
+          by the Terms and conditions therein. <br /> It is entirely my responsibility
           to prove my eligibility for admission to the programme for which I am
           admitted and also, in respect of qualifications and entitlement for
           admission against the reserved category, if claimed, to the

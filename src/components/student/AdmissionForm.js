@@ -35,12 +35,16 @@ const AdmissionForm = ({
     branchName: "",
     applicationNum: "",
     crlRank: "",
-    mark12: "",
+    marks12: "",
+    yearOfexam: "",
+    gateScore: "",
+    marksBTech: "",
     categoryCert: null,
     feeReceipt: null,
     appForm: null,
     marksheet12: null,
-    jeeScorecard: null,
+    marksheetBTech: null,
+    gateScorecard: null,
     allotmentLetter: null,
     pwdCert: null,
     declaration: false,
@@ -56,10 +60,10 @@ const AdmissionForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("🚀 Starting form submission...");
-    console.log("📡 API Base URL:", apiBaseUrl);
-    console.log("🌍 Environment:", process.env.NODE_ENV);
-    console.log("🔗 Full API URL:", `${apiBaseUrl}/api/admission`);
+    console.log("Starting form submission...");
+    console.log("API Base URL:", apiBaseUrl);
+    console.log("Environment:", process.env.NODE_ENV);
+    console.log("Full API URL:", `${apiBaseUrl}/api/admission`);
 
     onSubmissionStart();
 

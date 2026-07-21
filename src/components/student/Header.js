@@ -18,7 +18,7 @@ const Header = () => {
           background: '#fff'
         }}
       />
-      <h2>APPLICATION FORM FOR B.TECH. SPOT/LOCAL COUNSELLING-2025-26</h2>
+      <h2>APPLICATION FORM FOR M.TECH. SPOT/LOCAL COUNSELLING-2026-27</h2>
     </>
   );
 };
