@@ -36,7 +36,7 @@ const SuccessPage = ({ onReset }) => {
           marginBottom: '20px',
           fontSize: '24px'
         }}>
-          ✅ Response Recorded Successfully!
+          Response Recorded Successfully!
         </h2>
         
         <p style={{ 
@@ -44,7 +44,7 @@ const SuccessPage = ({ onReset }) => {
           marginBottom: '20px',
           lineHeight: '1.5'
         }}>
-          Your application for B.Tech Spot/Local Counselling has been submitted successfully. 
+          Your application for M.Tech Spot/Local Counselling has been submitted successfully. 
           You will receive a confirmation email shortly.
         </p>
         

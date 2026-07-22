@@ -1,25 +1,18 @@
 import React, { useState } from "react";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const ApplicationsList = ({ applications }) => {
-  // Add debugging at the top of the component
-  console.log("📊 ApplicationsList received applications:", applications);
-  console.log("📊 Applications count:", applications?.length || 0);
-  console.log("📊 Sample application:", applications?.[0]);
-
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false); // Add this missing state
 
   const filteredApplications = applications.filter(
     (app) =>
-      app.student_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.student_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.mobile?.includes(searchTerm) ||
-      app.applicationNum?.includes(searchTerm) ||
-      app.crlRank?.includes(searchTerm)
+      app.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.mobile?.includes(searchTerm),
   );
 
   const viewApplication = (application) => {
@@ -30,83 +23,55 @@ const ApplicationsList = ({ applications }) => {
   const downloadExcel = async () => {
     try {
       setLoading(true);
-      console.log("Starting Excel download...");
-
-      const token = localStorage.getItem("adminToken");
-      if (!token) {
-        throw new Error("No admin token found. Please login again.");
-      }
 
       const response = await fetch(
         `${API_BASE_URL}/api/admin/applications/download/excel`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+          credentials: "include", // Send HttpOnly cookie
+        },
       );
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server response:", errorText);
-        throw new Error(
-          `Download failed: ${response.status} ${response.statusText}`
-        );
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || "Failed to download Excel");
       }
 
-      // Check if response is actually an Excel file
-      const contentType = response.headers.get("content-type");
-      console.log("Content-Type:", contentType);
-
-      if (!contentType || !contentType.includes("spreadsheetml")) {
-        throw new Error("Server did not return an Excel file");
-      }
-
-      // Get the blob from response
       const blob = await response.blob();
-      console.log("Blob size:", blob.size, "bytes");
 
-      if (blob.size === 0) {
-        throw new Error("Received empty file");
-      }
-
-      // Create download link
       const url = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
       link.href = url;
 
-      // Get filename from response headers or use default
-      const contentDisposition = response.headers.get("content-disposition");
+      // Default filename
       let filename = `GGU_Student_Applications_${
         new Date().toISOString().split("T")[0]
       }.xlsx`;
 
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="?([^"]*)"?/);
-        if (filenameMatch) {
-          filename = filenameMatch[1];
+      // Read filename from response header if available
+      const disposition = response.headers.get("Content-Disposition");
+
+      if (disposition) {
+        const match = disposition.match(/filename="?([^"]+)"?/);
+
+        if (match) {
+          filename = match[1];
         }
       }
 
-      console.log("Downloading file:", filename);
-
       link.download = filename;
+
       document.body.appendChild(link);
+
       link.click();
 
-      // Cleanup
       link.remove();
-      window.URL.revokeObjectURL(url);
 
-      alert("Excel file downloaded successfully!");
-    } catch (error) {
-      console.error("Download error:", error);
-      alert("Failed to download Excel file: " + error.message);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
     } finally {
       setLoading(false);
     }
@@ -150,8 +115,7 @@ const ApplicationsList = ({ applications }) => {
             <div>
               <h3>Personal Information</h3>
               <p>
-                <strong>Name:</strong>{" "}
-                {selectedApplication.student_name || "N/A"}
+                <strong>Name:</strong> {selectedApplication.name || "N/A"}
               </p>
               <p>
                 <strong>Father's Name:</strong>{" "}
@@ -162,11 +126,15 @@ const ApplicationsList = ({ applications }) => {
                 {selectedApplication.motherName || "N/A"}
               </p>
               <p>
-                <strong>Email:</strong>{" "}
-                {selectedApplication.student_email || "N/A"}
+                <strong>Email:</strong> {selectedApplication.email || "N/A"}
               </p>
               <p>
-                <strong>DOB:</strong> {selectedApplication.dob || "N/A"}
+                <strong>DOB:</strong>{" "}
+                {selectedApplication.dob
+                  ? new Date(selectedApplication.dob).toLocaleDateString(
+                      "en-IN",
+                    )
+                  : "N/A"}
               </p>
               <p>
                 <strong>Gender:</strong> {selectedApplication.gender || "N/A"}
@@ -183,14 +151,36 @@ const ApplicationsList = ({ applications }) => {
                 <strong>Category:</strong>{" "}
                 {selectedApplication.category || "N/A"}
               </p>
-              <p>
-                <strong>JEE Mains Application No.:</strong>{" "}
-                {selectedApplication.applicationNum || "N/A"}
-              </p>
-              <p>
-                <strong>CRL Rank:</strong>{" "}
-                {selectedApplication.crlRank || "N/A"}
-              </p>
+              {selectedApplication.physicallyChallenged && (
+                <p>
+                  <strong>Physically Challenged:</strong> Yes
+                </p>
+              )}
+
+              {selectedApplication.academicDetails.gateQualified ? (
+                <>
+                  <p>
+                    <strong>GATE Qualified:</strong> Yes
+                  </p>
+                  <p>
+                    <strong>Gate Application Number:</strong>{" "}
+                    {selectedApplication.academicDetails.applicationNum ||
+                      "N/A"}
+                  </p>
+                  <p>
+                    <strong>Gate Score:</strong>{" "}
+                    {selectedApplication.academicDetails.gateScore || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Gate Year of Examination:</strong>{" "}
+                    {selectedApplication.academicDetails.yearOfExam || "N/A"}
+                  </p>
+                </>
+              ) : (
+                <p>
+                  <strong>GATE Qualified:</strong> No
+                </p>
+              )}
             </div>
 
             <div>
@@ -206,26 +196,51 @@ const ApplicationsList = ({ applications }) => {
                 <strong>Address:</strong> {selectedApplication.address || "N/A"}
               </p>
               <p>
-                <strong>Amount:</strong> ₹{selectedApplication.amount || "N/A"}
+                <strong>Amount:</strong> ₹{" "}
+                {selectedApplication.feeDetails.amount || "N/A"}
               </p>
               <p>
-                <strong>Bank:</strong> {selectedApplication.bank || "N/A"}
+                <strong>TransactionId:</strong>{" "}
+                {selectedApplication.feeDetails.bank || "N/A"}
               </p>
               <p>
                 <strong>Fee Payment Date:</strong>{" "}
-                {selectedApplication.date_feepayment || "N/A"}
+                {selectedApplication.feeDetails.paymentDate
+                  ? new Date(
+                      selectedApplication.feeDetails.paymentDate,
+                    ).toLocaleDateString("en-IN")
+                  : "N/A"}
               </p>
+
               <p>
-                <strong>Physically Challenged:</strong>{" "}
-                {selectedApplication.physChallenged || "N/A"}
+                <strong>12th Marks:</strong>{" "}
+                {selectedApplication.academicDetails.marks12 || "N/A"} %
               </p>
+
               <p>
-                <strong>Admission Status:</strong>{" "}
-                {selectedApplication.admissionStatus || "N/A"}
+                <strong>Qualifying Exam:</strong>{" "}
+                {selectedApplication.academicDetails.qualifyExam || "N/A"}
               </p>
-              {selectedApplication.branchName && (
+
+              <p>
+                <strong>Branch Of Study:</strong>{" "}
+                {selectedApplication.academicDetails.subjectOfStudy || "N/A"}
+              </p>
+
+              {selectedApplication.admissionDetails.admissionStatus ? (
+                <>
+                  <p>
+                    <strong>CCMT-2026 Counseling:</strong> Yes
+                  </p>
+
+                  <p>
+                    <strong>Branch Name:</strong>{" "}
+                    {selectedApplication.admissionDetails.branchName || "N/A"}
+                  </p>
+                </>
+              ) : (
                 <p>
-                  <strong>Branch Name:</strong> {selectedApplication.branchName}
+                  <strong>CCMT-2026 Counseling:</strong> No
                 </p>
               )}
             </div>
@@ -234,15 +249,16 @@ const ApplicationsList = ({ applications }) => {
           <div style={{ marginTop: "30px" }}>
             <h3>Documents</h3>
             <div style={{ display: "flex", gap: "15px", flexWrap: "wrap" }}>
-              {selectedApplication.categoryCert && (
+              {selectedApplication.documents.categoryCert?.url && (
                 <a
-                  href={selectedApplication.categoryCert}
+                  href={selectedApplication.documents.categoryCert.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
+                    display: "inline-block",
                     padding: "10px 15px",
                     backgroundColor: "#007bff",
-                    color: "white",
+                    color: "#fff",
                     textDecoration: "none",
                     borderRadius: "4px",
                   }}
@@ -250,9 +266,9 @@ const ApplicationsList = ({ applications }) => {
                   Category Certificate
                 </a>
               )}
-              {selectedApplication.feeReceipt && (
+              {selectedApplication.documents.passportPhoto && (
                 <a
-                  href={selectedApplication.feeReceipt}
+                  href={selectedApplication.documents.passportPhoto.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -263,12 +279,12 @@ const ApplicationsList = ({ applications }) => {
                     borderRadius: "4px",
                   }}
                 >
-                  Fee Receipt
+                  Passport Photo
                 </a>
               )}
-              {selectedApplication.appForm && (
+              {selectedApplication.documents.appForm && (
                 <a
-                  href={selectedApplication.appForm}
+                  href={selectedApplication.documents.appForm.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -282,9 +298,9 @@ const ApplicationsList = ({ applications }) => {
                   Application Form
                 </a>
               )}
-              {selectedApplication.jeeScorecard && (
+              {selectedApplication.documents.marksheet10 && (
                 <a
-                  href={selectedApplication.jeeScorecard}
+                  href={selectedApplication.documents.marksheet10.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -295,12 +311,12 @@ const ApplicationsList = ({ applications }) => {
                     borderRadius: "4px",
                   }}
                 >
-                  JEE Scorecard
+                  10th Marksheet
                 </a>
               )}
-              {selectedApplication.marksheet12 && (
+              {selectedApplication.documents.marksheet12 && (
                 <a
-                  href={selectedApplication.marksheet12}
+                  href={selectedApplication.documents.marksheet12.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -311,12 +327,12 @@ const ApplicationsList = ({ applications }) => {
                     borderRadius: "4px",
                   }}
                 >
-                  Class 12th Marksheet
+                  12th Marksheet
                 </a>
               )}
-              {selectedApplication.allotmentLetter && (
+              {selectedApplication.documents.gateQualifyExam && (
                 <a
-                  href={selectedApplication.allotmentLetter}
+                  href={selectedApplication.documents.gateQualifyExam.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -327,12 +343,28 @@ const ApplicationsList = ({ applications }) => {
                     borderRadius: "4px",
                   }}
                 >
-                  Allotment Letter
+                  Degree Certificate
                 </a>
               )}
-              {selectedApplication.pwdCert && (
+              {selectedApplication.documents.gateScorecard && (
                 <a
-                  href={selectedApplication.pwdCert}
+                  href={selectedApplication.documents.gateScorecard.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "10px 15px",
+                    backgroundColor: "#e83e8c",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                  }}
+                >
+                  GATE Scorecard
+                </a>
+              )}
+              {selectedApplication.documents.pwdCert && (
+                <a
+                  href={selectedApplication.documents.pwdCert.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -346,6 +378,38 @@ const ApplicationsList = ({ applications }) => {
                   PWD Certificate
                 </a>
               )}
+              {selectedApplication.documents.allotmentLetter && (
+                <a
+                  href={selectedApplication.documents.allotmentLetter.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "10px 15px",
+                    backgroundColor: "#20c997",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Allotment Letter
+                </a>
+              )}
+              {selectedApplication.documents.feeReceipt && (
+                <a
+                  href={selectedApplication.documents.feeReceipt.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "10px 15px",
+                    backgroundColor: "#20c997",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Fee Receipt
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -357,70 +421,69 @@ const ApplicationsList = ({ applications }) => {
     <div>
       {/* Header with search and download button */}
       <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "20px",
-    flexWrap: "wrap",
-    rowGap: "15px",
-    columnGap: "20px",
-  }}
->
-  <h2 style={{ margin: 0, fontSize: "1.25rem", flex: "1 1 auto" }}>
-    Student Applications ({filteredApplications.length})
-  </h2>
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+          flexWrap: "wrap",
+          rowGap: "15px",
+          columnGap: "20px",
+        }}
+      >
+        <h2 style={{ margin: 0, fontSize: "1.25rem", flex: "1 1 auto" }}>
+          Student Applications ({filteredApplications.length})
+        </h2>
 
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "10px",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      flex: "1 1 400px", // Responsive container width
-    }}
-  >
-    <button
-      onClick={downloadExcel}
-      disabled={loading}
-      style={{
-        padding: "10px 20px",
-        backgroundColor: "#28a745",
-        color: "white",
-        border: "none",
-        borderRadius: "6px",
-        cursor: loading ? "not-allowed" : "pointer",
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-        fontWeight: "500",
-        opacity: loading ? 0.7 : 1,
-        whiteSpace: "nowrap",
-      }}
-    >
-      {loading ? "⏳ Generating..." : "📥 Download Excel"}
-    </button>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            flex: "1 1 400px", // Responsive container width
+          }}
+        >
+          <button
+            onClick={downloadExcel}
+            disabled={loading}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#28a745",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: loading ? "not-allowed" : "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontWeight: "500",
+              opacity: loading ? 0.7 : 1,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {loading ? "Generating..." : "Download Excel"}
+          </button>
 
-    <input
-      type="text"
-      placeholder="Search by name, email, mobile, JEE number, or rank..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      style={{
-        padding: "10px 20px",
-        minWidth: "200px",
-        width: "100%",
-        maxWidth: "300px",
-        border: "2px solid #e2e8f0",
-        borderRadius: "8px",
-        fontSize: "14px",
-        flex: "1 1 200px", // allow shrinking/growing
-      }}
-    />
-  </div>
-</div>
-
+          <input
+            type="text"
+            placeholder="Search by name, email, mobile, JEE number, or rank..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              padding: "10px 20px",
+              minWidth: "200px",
+              width: "100%",
+              maxWidth: "300px",
+              border: "2px solid #e2e8f0",
+              borderRadius: "8px",
+              fontSize: "14px",
+              flex: "1 1 200px", // allow shrinking/growing
+            }}
+          />
+        </div>
+      </div>
 
       <div
         style={{
@@ -467,7 +530,7 @@ const ApplicationsList = ({ applications }) => {
                   borderBottom: "1px solid #ddd",
                 }}
               >
-                JEE App No.
+                DOB
               </th>
               <th
                 style={{
@@ -476,7 +539,7 @@ const ApplicationsList = ({ applications }) => {
                   borderBottom: "1px solid #ddd",
                 }}
               >
-                CRL Rank
+                Application Fee
               </th>
               <th
                 style={{
@@ -501,20 +564,24 @@ const ApplicationsList = ({ applications }) => {
           <tbody>
             {filteredApplications.map((application, index) => (
               <tr key={index} style={{ borderBottom: "1px solid #eee" }}>
+                <td style={{ padding: "15px" }}>{application.name || "N/A"}</td>
                 <td style={{ padding: "15px" }}>
-                  {application.student_name || "N/A"}
-                </td>
-                <td style={{ padding: "15px" }}>
-                  {application.student_email || "N/A"}
+                  {application.email || "N/A"}
                 </td>
                 <td style={{ padding: "15px" }}>
                   {application.mobile || "N/A"}
                 </td>
                 <td style={{ padding: "15px" }}>
-                  {application.applicationNum || "N/A"}
+                  {application.dob
+                    ? new Date(application.dob).toLocaleDateString("en-IN", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : "N/A"}
                 </td>
                 <td style={{ padding: "15px" }}>
-                  {application.crlRank || "N/A"}
+                  {application.feeDetails.amount || "N/A"}
                 </td>
                 <td style={{ padding: "15px" }}>
                   {application.category || "N/A"}

@@ -1,57 +1,88 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { setAdmin, clearAdmin } from "../app/slice/adminSlice";
+
 import LoginPage from "../components/admin/LoginPage";
 import Dashboard from "../components/admin/Dashboard";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const AdminPage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if admin is already logged in
-    const token = localStorage.getItem("adminToken");
-    if (token) {
-      // Verify token with backend
-      fetch(`${API_BASE_URL}/api/admin/applications`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            setIsAuthenticated(true);
-          } else {
-            localStorage.removeItem("adminToken");
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/admin/profile`,
+          {
+            method: "GET",
+            credentials: "include",
           }
-        })
-        .catch(() => {
-          localStorage.removeItem("adminToken");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, []);
+        );
 
-  const handleLogin = (token) => {
-    localStorage.setItem("adminToken", token);
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          dispatch(setAdmin(data.admin));
+          setIsAuthenticated(true);
+        } else {
+          dispatch(clearAdmin());
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Authentication Error:", error);
+
+        dispatch(clearAdmin());
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [dispatch]);
+
+  const handleLogin = () => {
     setIsAuthenticated(true);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
+  const handleLogout = async () => {
+    try {
+      await fetch(
+        `${API_BASE_URL}/api/admin/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+
+    dispatch(clearAdmin());
     setIsAuthenticated(false);
   };
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div>Loading admin dashboard...</div>
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "20px",
+          fontWeight: "600",
+        }}
+      >
+        Loading...
       </div>
     );
   }
@@ -63,23 +94,33 @@ const AdminPage = () => {
           path="login"
           element={
             isAuthenticated ? (
-              <Navigate to="/admin/dashboard" replace />
+              <Navigate replace to="/admin/dashboard" />
             ) : (
               <LoginPage onLogin={handleLogin} />
             )
           }
         />
+
         <Route
           path="dashboard"
           element={
             isAuthenticated ? (
               <Dashboard onLogout={handleLogout} />
             ) : (
-              <Navigate to="/admin/login" replace />
+              <Navigate replace to="/admin/login" />
             )
           }
         />
-        <Route path="" element={<Navigate to="/admin/login" replace />} />
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              replace
+              to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
+            />
+          }
+        />
       </Routes>
     </div>
   );

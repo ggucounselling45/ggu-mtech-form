@@ -1,43 +1,29 @@
 import React, { useState } from "react";
 import AdmissionForm from "../components/student/AdmissionForm";
 import SuccessPage from "../components/student/SuccessPage";
-import LoadingSpinner from "../components/common/LoadingSpinner";
-
-// API Base URL configuration for Create React App
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "https://ggu-btech-form-b.vercel.app/";
 
 const StudentPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmissionSuccess = () => {
-    console.log("✅ handleSubmissionSuccess called");
-    setIsSubmitted(true);
-    setIsLoading(false);
-  };
 
   const handleSubmissionStart = () => {
-    console.log("⏳ handleSubmissionStart called");
-    setIsLoading(true);
-    setIsSubmitted(false);
+    console.log("Submission started");
+  };
+
+  const handleSubmissionSuccess = () => {
+    console.log("Submission successful");
+    setIsSubmitted(true);
   };
 
   const handleSubmissionError = () => {
-    console.log("❌ handleSubmissionError called");
-    setIsLoading(false);
-    setIsSubmitted(false);
+    console.log("Submission failed");
+    // No need to do anything.
+    // AdmissionForm already displays backend errors.
   };
 
   const resetForm = () => {
-    console.log("🔄 resetForm called");
+    console.log("Reset form");
     setIsSubmitted(false);
-    setIsLoading(false);
   };
-
-  if (isLoading) {
-    return <LoadingSpinner message="Submitting your application..." />;
-  }
 
   if (isSubmitted) {
     return <SuccessPage onReset={resetForm} />;
@@ -46,7 +32,6 @@ const StudentPage = () => {
   return (
     <div className="student-page">
       <AdmissionForm
-        apiBaseUrl={API_BASE_URL} // ✅ Pass API_BASE_URL to AdmissionForm
         onSubmissionStart={handleSubmissionStart}
         onSubmissionSuccess={handleSubmissionSuccess}
         onSubmissionError={handleSubmissionError}

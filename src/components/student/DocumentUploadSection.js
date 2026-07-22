@@ -15,7 +15,7 @@ const DocumentUploadSection = ({ form, onChange }) => {
       />
 
       <FormField
-        label="Upload Filled Application Form (downloaded from GGV University Website and filled in own handwriting) (Upload 1 supported file. PDF. Max 10MB)"
+        label="Upload Filled Application Form (downloaded from GGV University Website and filled in own handwriting) (Upload 1 supported file. PDF. Max 5MB)"
         name="appForm"
         type="file"
         accept=".pdf"

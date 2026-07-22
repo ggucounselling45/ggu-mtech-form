@@ -76,6 +76,15 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       <FormField
+        label="Upload Passport Size Photograph"
+        name="passportPhoto"
+        type="file"
+        accept=".pdf"
+        onChange={onChange}
+        required
+      />
+
+      <FormField
         label="Upload Class 10th Marksheet"
         name="marksheet10"
         type="file"
@@ -191,45 +200,43 @@ const PersonalInfoSection = ({ form, onChange }) => {
       />
 
       {form.gateQualified === "Yes" && (
-        <FormField
-          label="GATE Application Number"
-          name="applicationNum"
-          value={form.applicationNum}
-          onChange={onChange}
-          required
-        />
+        <>
+          <FormField
+            label="GATE Application Number"
+            name="applicationNum"
+            value={form.applicationNum}
+            onChange={onChange}
+            required
+          />
+
+          <FormField
+            label="GATE Year Of Examination"
+            name="yearOfExam"
+            value={form.yearOfExam}
+            onChange={onChange}
+            required
+          />
+
+          <FormField
+            label="GATE Rank"
+            name="gateScore"
+            type="number"
+            value={form.gateScore}
+            onChange={onChange}
+            required
+          />
+
+          <FormField
+            label="Upload GATE Scorecard and Admit Card (Single PDF)"
+            name="gateScorecard"
+            type="file"
+            accept=".pdf"
+            onChange={onChange}
+            required
+          />
+        </>
       )}
 
-      {form.gateQualified === "Yes" && (
-        <FormField
-          label="GATE Year Of Examination"
-          name="yearOfExam"
-          value={form.yearOfExam}
-          onChange={onChange}
-          required
-        />
-      )}
-
-      {form.gateQualified === "Yes" && (
-        <FormField
-          label="Gate Score"
-          name="gateScore"
-          value={form.gateScore}
-          onChange={onChange}
-          required
-        />
-      )}
-
-      {form.gateQualified === "Yes" && (
-        <FormField
-          label="Uplaod GATE Scorecard and Admit Card(in a Single PDF file)"
-          name="gateScorecard"
-          type="file"
-          accept=".pdf"
-          onChange={onChange}
-          required
-        />
-      )}
 
       <FormField
         label="Category"

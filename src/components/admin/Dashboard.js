@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ApplicationsList from "./ApplicationsList";
 import Statistics from "./Statistics";
-
+import { useDispatch, useSelector } from "react-redux";
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const Dashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("applications");
   const [applications, setApplications] = useState([]);
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const admin = useSelector((state) => state.admin);
 
-  const getAuthHeaders = () => ({
-    Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-    "Content-Type": "application/json",
-  });
+
 
   const fetchApplications = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
-        headers: getAuthHeaders(),
+        method: "GET",
+        credentials: "include",
       });
       const data = await response.json();
       if (response.ok) {
@@ -32,24 +31,24 @@ const Dashboard = ({ onLogout }) => {
     }
   }, []);
 
-  const fetchStatistics = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/statistics`, {
-        headers: getAuthHeaders(),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setStatistics(data.statistics);
-      }
-    } catch (error) {
-      console.error("Error fetching statistics:", error);
-    }
-  }, []);
+  // const fetchStatistics = useCallback(async () => {
+  //   try {
+  //     const response = await fetch(`${API_BASE_URL}/api/admin/statistics`, {
+  //       headers: getAuthHeaders(),
+  //     });
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setStatistics(data.statistics);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching statistics:", error);
+  //   }
+  // }, []);
 
   useEffect(() => {
     fetchApplications();
-    fetchStatistics();
-  }, [fetchApplications, fetchStatistics]);
+    // fetchStatistics();
+  }, [fetchApplications]);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setAdmin } from "../../app/slice/adminSlice";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const LoginPage = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setCredentials({
@@ -23,42 +26,29 @@ const LoginPage = ({ onLogin }) => {
     setLoading(true);
     setError("");
 
-    console.log("Raw credentials object:", credentials);
-    console.log("Stringified credentials:", JSON.stringify(credentials));
-
     try {
       const requestBody = JSON.stringify(credentials);
-      console.log("Request body being sent:", requestBody);
 
       const apiBaseUrl = `${API_BASE_URL}/api/admin/login`;
       const response = await fetch(apiBaseUrl, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: requestBody, // Make sure we're not double-stringifying
+        body: requestBody,
       });
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", [...response.headers.entries()]);
+
+      const data = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("✅ Login successful:", data);
-        onLogin(data.token);
+        dispatch(setAdmin(data));
+        onLogin();
       } else {
-        const errorText = await response.text(); // Get raw response first
-        console.error("❌ Error response (raw):", errorText);
-
-        try {
-          const errorData = JSON.parse(errorText);
-          setError(errorData.error || "Login failed");
-        } catch (parseError) {
-          setError(`Server error: ${errorText}`);
-        }
+        setError(data.message || "Login failed");
       }
     } catch (error) {
-      console.error("❌ Network/Server error:", error);
       setError(`Request failed: ${error.message}`);
     } finally {
       setLoading(false);
@@ -120,10 +110,10 @@ const LoginPage = ({ onLogin }) => {
             Username
           </label>
           <input
-            type="text"
-            name="username"
-            placeholder="Enter username"
-            value={credentials.username}
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value={credentials.email}
             onChange={handleChange}
             required
             style={{
