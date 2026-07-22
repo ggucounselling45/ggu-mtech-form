@@ -2,7 +2,12 @@ import React from "react";
 import FormField from "./FormField";
 import "../../App.css";
 
-const DocumentUploadSection = ({ form, onChange }) => {
+const DocumentUploadSection = ({
+  form,
+  onChange,
+  errors,
+  shouldShowFieldError,
+}) => {
   return (
     <>
       <FormField
@@ -12,6 +17,8 @@ const DocumentUploadSection = ({ form, onChange }) => {
         accept=".pdf"
         onChange={onChange}
         required
+        helperText="PDF only."
+        error={shouldShowFieldError("feeReceipt") ? errors.feeReceipt : ""}
       />
 
       <FormField
@@ -21,6 +28,8 @@ const DocumentUploadSection = ({ form, onChange }) => {
         accept=".pdf"
         onChange={onChange}
         required
+        helperText="PDF only."
+        error={shouldShowFieldError("appForm") ? errors.appForm : ""}
       />
     </>
   );

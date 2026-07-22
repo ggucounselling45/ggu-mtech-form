@@ -3,7 +3,12 @@ import FormField from "./FormField";
 import RadioGroup from "./RadioGroup";
 import "../../App.css";
 
-const PersonalInfoSection = ({ form, onChange }) => {
+const PersonalInfoSection = ({
+  form,
+  onChange,
+  errors,
+  shouldShowFieldError,
+}) => {
   let qualifyingExamOptions = ["B.Tech.", "M.Sc", "MCA", "Any other"];
   return (
     <>
@@ -13,6 +18,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.name}
         onChange={onChange}
         required
+        error={shouldShowFieldError("name") ? errors.name : ""}
       />
 
       <FormField
@@ -21,6 +27,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.fatherName}
         onChange={onChange}
         required
+        error={shouldShowFieldError("fatherName") ? errors.fatherName : ""}
       />
 
       <FormField
@@ -29,6 +36,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.motherName}
         onChange={onChange}
         required
+        error={shouldShowFieldError("motherName") ? errors.motherName : ""}
       />
 
       <FormField
@@ -38,6 +46,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.email}
         onChange={onChange}
         required
+        helperText="Use an active email address for admission communication."
+        error={shouldShowFieldError("email") ? errors.email : ""}
       />
 
       <FormField
@@ -47,6 +57,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.dob}
         onChange={onChange}
         required
+        helperText="Enter the date exactly as printed on your 10th certificate."
+        error={shouldShowFieldError("dob") ? errors.dob : ""}
       />
 
       <FormField
@@ -57,6 +69,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         onChange={onChange}
         options={["Male", "Female", "Other"]}
         required
+        error={shouldShowFieldError("gender") ? errors.gender : ""}
       />
 
       <FormField
@@ -65,6 +78,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.nationality}
         onChange={onChange}
         required
+        error={shouldShowFieldError("nationality") ? errors.nationality : ""}
       />
 
       <FormField
@@ -73,6 +87,7 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.religion}
         onChange={onChange}
         required
+        error={shouldShowFieldError("religion") ? errors.religion : ""}
       />
 
       <FormField
@@ -82,6 +97,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
         accept=".pdf"
         onChange={onChange}
         required
+        helperText="PDF only."
+        error={
+          shouldShowFieldError("passportPhoto") ? errors.passportPhoto : ""
+        }
       />
 
       <FormField
@@ -91,6 +110,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         accept=".pdf"
         onChange={onChange}
         required
+        helperText="PDF only."
+        error={shouldShowFieldError("marksheet10") ? errors.marksheet10 : ""}
       />
 
       <FormField
@@ -99,6 +120,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.marks12}
         onChange={onChange}
         required
+        helperText="Enter percentage only, for example 78.5."
+        error={shouldShowFieldError("marks12") ? errors.marks12 : ""}
       />
 
       <FormField
@@ -108,6 +131,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         accept=".pdf"
         onChange={onChange}
         required
+        helperText="PDF only."
+        error={shouldShowFieldError("marksheet12") ? errors.marksheet12 : ""}
       />
 
       <FormField
@@ -116,6 +141,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         value={form.marksBTech}
         onChange={onChange}
         required
+        helperText="Enter CGPA on a 10-point scale or percentage as applicable."
+        error={shouldShowFieldError("marksBTech") ? errors.marksBTech : ""}
       />
 
       <FormField
@@ -126,6 +153,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         onChange={onChange}
         options={qualifyingExamOptions}
         required
+        helperText="Choose the qualifying exam you passed."
+        error={shouldShowFieldError("qualifyExam") ? errors.qualifyExam : ""}
       />
       {/* Conditional Field */}
       {form.qualifyExam === "B.Tech." && (
@@ -137,6 +166,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           placeholder="Enter your branch (e.g. Computer Science)"
           required
+          helperText="Required only when qualifying exam is B.Tech."
+          error={
+            shouldShowFieldError("branchOfStudy") ? errors.branchOfStudy : ""
+          }
         />
       )}
 
@@ -149,6 +182,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           placeholder="Enter your subject"
           required
+          helperText="Required only when qualifying exam is M.Sc."
+          error={
+            shouldShowFieldError("subjectOfStudy") ? errors.subjectOfStudy : ""
+          }
         />
       )}
 
@@ -161,6 +198,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           placeholder="Enter your subject"
           required
+          helperText="Required only when qualifying exam is MCA."
+          error={
+            shouldShowFieldError("subjectOfStudy") ? errors.subjectOfStudy : ""
+          }
         />
       )}
 
@@ -173,6 +214,12 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           placeholder="Specify your qualification"
           required
+          helperText="Required only when qualifying exam is Any other."
+          error={
+            shouldShowFieldError("otherQualification")
+              ? errors.otherQualification
+              : ""
+          }
         />
       )}
 
@@ -184,6 +231,12 @@ const PersonalInfoSection = ({ form, onChange }) => {
           accept=".pdf"
           onChange={onChange}
           required
+          helperText="PDF only."
+          error={
+            shouldShowFieldError("gateQualifyExam")
+              ? errors.gateQualifyExam
+              : ""
+          }
         />
       )}
 
@@ -197,6 +250,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           { value: "Yes", label: "Yes" },
         ]}
         required
+        helperText="Select Yes only if you qualified GATE."
+        error={
+          shouldShowFieldError("gateQualified") ? errors.gateQualified : ""
+        }
       />
 
       {form.gateQualified === "Yes" && (
@@ -207,6 +264,12 @@ const PersonalInfoSection = ({ form, onChange }) => {
             value={form.applicationNum}
             onChange={onChange}
             required
+            helperText="Required only when GATE qualified is Yes."
+            error={
+              shouldShowFieldError("applicationNum")
+                ? errors.applicationNum
+                : ""
+            }
           />
 
           <FormField
@@ -215,6 +278,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
             value={form.yearOfExam}
             onChange={onChange}
             required
+            helperText="Enter a year between 2000 and the current year."
+            error={shouldShowFieldError("yearOfExam") ? errors.yearOfExam : ""}
           />
 
           <FormField
@@ -224,6 +289,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
             value={form.gateScore}
             onChange={onChange}
             required
+            helperText="Enter the GATE rank as a whole number."
+            error={shouldShowFieldError("gateScore") ? errors.gateScore : ""}
           />
 
           <FormField
@@ -233,10 +300,13 @@ const PersonalInfoSection = ({ form, onChange }) => {
             accept=".pdf"
             onChange={onChange}
             required
+            helperText="PDF only."
+            error={
+              shouldShowFieldError("gateScorecard") ? errors.gateScorecard : ""
+            }
           />
         </>
       )}
-
 
       <FormField
         label="Category"
@@ -246,6 +316,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
         onChange={onChange}
         options={["Gen", "Gen-EWS", "OBC-NCL", "SC", "ST"]}
         required
+        helperText="Choose the category from your certificate."
+        error={shouldShowFieldError("category") ? errors.category : ""}
       />
 
       {form.category && form.category === "Gen-EWS" && (
@@ -257,6 +329,9 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           accept=".pdf"
           required
+          error={
+            shouldShowFieldError("categoryCert") ? errors.categoryCert : ""
+          }
         />
       )}
 
@@ -269,6 +344,9 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           accept=".pdf"
           required
+          error={
+            shouldShowFieldError("categoryCert") ? errors.categoryCert : ""
+          }
         />
       )}
 
@@ -280,6 +358,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           accept=".pdf"
           required
+          helperText="PDF only."
+          error={
+            shouldShowFieldError("categoryCert") ? errors.categoryCert : ""
+          }
         />
       )}
       {form.category && form.category === "ST" && (
@@ -290,6 +372,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           accept=".pdf"
           required
+          helperText="PDF only."
+          error={
+            shouldShowFieldError("categoryCert") ? errors.categoryCert : ""
+          }
         />
       )}
 
@@ -303,6 +389,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           { value: "Yes", label: "Yes" },
         ]}
         required
+        helperText="Select Yes only if you have a valid UDID / PWD certificate."
+        error={
+          shouldShowFieldError("physChallenged") ? errors.physChallenged : ""
+        }
       />
       {form.physChallenged === "Yes" && (
         <FormField
@@ -312,6 +402,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
           onChange={onChange}
           accept=".pdf"
           required
+          helperText="PDF only."
+          error={shouldShowFieldError("pwdCert") ? errors.pwdCert : ""}
         />
       )}
 
@@ -325,6 +417,10 @@ const PersonalInfoSection = ({ form, onChange }) => {
           { value: "Yes", label: "Yes" },
         ]}
         required
+        helperText="Select Yes if you are already admitted through CCMT-2026."
+        error={
+          shouldShowFieldError("admissionStatus") ? errors.admissionStatus : ""
+        }
       />
 
       {form.admissionStatus === "Yes" && (
@@ -347,6 +443,8 @@ const PersonalInfoSection = ({ form, onChange }) => {
               "Geotechnical Engineering",
             ]}
             required
+            helperText="Required only when admission status is Yes."
+            error={shouldShowFieldError("branchName") ? errors.branchName : ""}
           />
           <FormField
             label="Upload Provisional Allotment Letter"
@@ -355,6 +453,12 @@ const PersonalInfoSection = ({ form, onChange }) => {
             onChange={onChange}
             accept=".pdf"
             required
+            helperText="PDF only."
+            error={
+              shouldShowFieldError("allotmentLetter")
+                ? errors.allotmentLetter
+                : ""
+            }
           />
         </div>
       )}

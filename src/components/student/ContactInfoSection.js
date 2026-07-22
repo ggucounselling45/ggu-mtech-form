@@ -2,7 +2,12 @@ import React from "react";
 import FormField from "./FormField";
 import "../../App.css";
 
-const ContactInfoSection = ({ form, onChange }) => {
+const ContactInfoSection = ({
+  form,
+  onChange,
+  errors,
+  shouldShowFieldError,
+}) => {
   return (
     <>
       <FormField
@@ -12,6 +17,8 @@ const ContactInfoSection = ({ form, onChange }) => {
         value={form.address}
         onChange={onChange}
         required
+        helperText="Use your current mailing address."
+        error={shouldShowFieldError("address") ? errors.address : ""}
       />
 
       <FormField
@@ -21,6 +28,8 @@ const ContactInfoSection = ({ form, onChange }) => {
         value={form.mobile}
         onChange={onChange}
         required
+        helperText="Enter a 10-digit Indian mobile number."
+        error={shouldShowFieldError("mobile") ? errors.mobile : ""}
       />
 
       <FormField
@@ -29,6 +38,8 @@ const ContactInfoSection = ({ form, onChange }) => {
         type="tel"
         value={form.altMobile}
         onChange={onChange}
+        helperText="Optional. Enter a 10-digit alternate number if available."
+        error={shouldShowFieldError("altMobile") ? errors.altMobile : ""}
       />
     </>
   );

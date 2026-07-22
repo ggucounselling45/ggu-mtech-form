@@ -2,7 +2,12 @@ import React from "react";
 import FormGroup from "./FormGroup";
 import "../../App.css";
 
-const DeclarationSection = ({ form, onChange }) => {
+const DeclarationSection = ({
+  form,
+  onChange,
+  errors,
+  shouldShowFieldError,
+}) => {
   return (
     <FormGroup>
       <label>
@@ -41,6 +46,9 @@ const DeclarationSection = ({ form, onChange }) => {
           I Agree
         </label>
       </div>
+      {shouldShowFieldError("declaration") && errors.declaration && (
+        <p className="field-error">{errors.declaration}</p>
+      )}
       <div style={{ marginTop: "20px" }}>
         <label>
           MAIL DECLARATION
@@ -68,6 +76,9 @@ const DeclarationSection = ({ form, onChange }) => {
             Yes,I have sent the email to ggv.admission2026@gmail.com
           </label>
         </div>
+        {shouldShowFieldError("mailDeclaration") && errors.mailDeclaration && (
+          <p className="field-error">{errors.mailDeclaration}</p>
+        )}
       </div>
     </FormGroup>
   );

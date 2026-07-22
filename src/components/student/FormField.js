@@ -2,22 +2,31 @@ import React from "react";
 import FormGroup from "./FormGroup";
 import "../../App.css";
 
-const FormField = ({ 
-  label, 
-  name, 
-  type = "text", 
-  value, 
-  onChange, 
-  required = false, 
-  options = [], 
+const FormField = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+  options = [],
   accept,
+  placeholder,
   helperText,
-  rows 
+  rows,
+  error,
 }) => {
   const renderInput = () => {
     if (type === "select") {
       return (
-        <select name={name} required={required} value={value} onChange={onChange}>
+        <select
+          name={name}
+          required={required}
+          value={value}
+          onChange={onChange}
+          aria-invalid={Boolean(error)}
+          style={error ? { borderBottomColor: "#dc2626" } : undefined}
+        >
           <option value="">Select</option>
           {options.map((option) => (
             <option key={option} value={option}>
@@ -36,27 +45,26 @@ const FormField = ({
           value={value}
           onChange={onChange}
           rows={rows || 3}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          style={error ? { borderBottomColor: "#dc2626" } : undefined}
         />
       );
     }
 
     return (
       <div className="mb-4">
-      {
-        !helperText ? null : (
-          <p style={{ fontSize: "11px", color: "#4B5563" }}>
-            {helperText}
-          </p>
-        )
-      }
-      <input
-        type={type}
-        name={name}
-        required={required}
-        value={value}
-        onChange={onChange}
-        accept={accept}
-      />
+        <input
+          type={type}
+          name={name}
+          required={required}
+          value={value}
+          onChange={onChange}
+          accept={accept}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          style={error ? { borderBottomColor: "#dc2626" } : undefined}
+        />
       </div>
     );
   };
@@ -68,6 +76,8 @@ const FormField = ({
         {required && <span className="required">*</span>}
       </label>
       {renderInput()}
+      {helperText && <p className="field-hint">{helperText}</p>}
+      {error && <p className="field-error">{error}</p>}
     </FormGroup>
   );
 };

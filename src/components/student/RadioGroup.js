@@ -9,6 +9,8 @@ const RadioGroup = ({
   onChange,
   options,
   required = false,
+  helperText,
+  error,
 }) => {
   return (
     <FormGroup>
@@ -26,11 +28,14 @@ const RadioGroup = ({
               required={required}
               checked={value === option.value}
               onChange={onChange}
+              aria-invalid={Boolean(error)}
             />
             {option.label}
           </label>
         ))}
       </div>
+      {helperText && <p className="field-hint">{helperText}</p>}
+      {error && <p className="field-error">{error}</p>}
     </FormGroup>
   );
 };
