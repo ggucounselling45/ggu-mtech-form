@@ -471,7 +471,7 @@ const AdmissionForm = ({
 
       setErrors([
         {
-          msg: "Unable to connect to the server. Please try after some time.",
+          msg: "Unable to connect to the server. Please try after some time. If not resolved, please send a mail to ggucounselling45@gmail.com with your contact number",
         },
       ]);
 

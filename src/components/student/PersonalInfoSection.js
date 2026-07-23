@@ -141,7 +141,7 @@ const PersonalInfoSection = ({
         value={form.marksBTech}
         onChange={onChange}
         required
-        helperText="Enter CGPA on a 10-point scale or percentage as applicable."
+        helperText="Enter CGPA upto 10 or percentage upto 100, for example 8.5 or 85."
         error={shouldShowFieldError("marksBTech") ? errors.marksBTech : ""}
       />
 
@@ -225,7 +225,7 @@ const PersonalInfoSection = ({
 
       {qualifyingExamOptions.includes(form.qualifyExam) && (
         <FormField
-          label="Upload Qualifying Exam Certificate"
+          label="Grade/Mark sheets of qualifying examination for all semesters,if awaited then uptill pre-final semester"
           name="gateQualifyExam"
           type="file"
           accept=".pdf"
@@ -287,11 +287,11 @@ const PersonalInfoSection = ({
           <FormField
             label="GATE Score"
             name="gateScore"
-            type="number"
+            type="text"
             value={form.gateScore}
             onChange={onChange}
             required
-            helperText="Enter the GATE Score as a whole number."
+            helperText="Enter the GATE Score"
             error={shouldShowFieldError("gateScore") ? errors.gateScore : ""}
           />
 
