@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import PersonalInfoSection from "./PersonalInfoSection";
 import ContactInfoSection from "./ContactInfoSection";
@@ -48,11 +48,22 @@ const AdmissionForm = ({
   onSubmissionSuccess,
   onSubmissionError,
 }) => {
+
   const [errors, setErrors] = useState([]);
   const [fieldErrors, setFieldErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
   const [hasSubmittedOnce, setHasSubmittedOnce] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+  if (errors.length > 0) {
+    const message = errors
+      .map((error, index) => `${index + 1}. ${error.msg}`)
+      .join("\n");
+
+    alert(`Server is experiencing issues:\n\n${message}`);
+  }
+}, [errors]);
 
   const [form, setForm] = useState({
     name: "",
@@ -473,39 +484,6 @@ const AdmissionForm = ({
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: 500, margin: "auto" }}>
       <Header />
-
-      {errors.length > 0 && (
-        <div
-          style={{
-            background: "#FEF2F2",
-            border: "1px solid #EF4444",
-            color: "#991B1B",
-            padding: "16px",
-            borderRadius: "8px",
-            marginBottom: "20px",
-          }}
-        >
-          <h3
-            style={{
-              marginTop: 0,
-              marginBottom: "10px",
-            }}
-          >
-            Please fix the following errors:
-          </h3>
-
-          <ul
-            style={{
-              margin: 0,
-              paddingLeft: "20px",
-            }}
-          >
-            {errors.map((error, index) => (
-              <li key={index}>{error.msg}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       <PersonalInfoSection
         form={form}

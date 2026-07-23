@@ -7,8 +7,7 @@ import { setAdmin, clearAdmin } from "../app/slice/adminSlice";
 import LoginPage from "../components/admin/LoginPage";
 import Dashboard from "../components/admin/Dashboard";
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL =process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const AdminPage = () => {
   const dispatch = useDispatch();
