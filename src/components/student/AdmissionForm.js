@@ -215,7 +215,7 @@ const AdmissionForm = ({
       case "marksBTech":
         return validateDecimal(value, 0, 10)
           ? ""
-          : "CGPA must be between 0 and 10.";
+          : "Enter CGPA upto 10 or percentage upto 100, for example 8.5 or 85.";
       case "gateQualified":
         return ["Yes", "No"].includes(value)
           ? ""

@@ -225,7 +225,7 @@ const PersonalInfoSection = ({
 
       {qualifyingExamOptions.includes(form.qualifyExam) && (
         <FormField
-          label="Grade/Mark sheets of qualifying examination for all semesters,if awaited then uptill pre-final semester"
+          label="Grade/Mark sheets of qualifying examination for all semesters,if awaited then uptill pre-final semester in single PDF file"
           name="gateQualifyExam"
           type="file"
           accept=".pdf"
