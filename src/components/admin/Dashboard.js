@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import ApplicationsList from "./ApplicationsList";
 import Statistics from "./Statistics";
 import { useDispatch, useSelector } from "react-redux";
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const Dashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("applications");

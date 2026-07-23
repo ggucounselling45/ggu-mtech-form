@@ -40,6 +40,9 @@ const validateInteger = (value, min, max) => {
 
 const getRequiredFileMessage = (label) => `${label} is required.`;
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+
+
 const AdmissionForm = ({
   onSubmissionStart,
   onSubmissionSuccess,
@@ -410,7 +413,7 @@ const AdmissionForm = ({
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/user/submit-form",
+        `${API_BASE_URL}/api/user/submit-form`,
         {
           method: "POST",
           body: formData,
