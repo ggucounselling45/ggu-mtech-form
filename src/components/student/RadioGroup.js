@@ -28,7 +28,6 @@ const RadioGroup = ({
               required={required}
               checked={value === option.value}
               onChange={onChange}
-              aria-invalid={Boolean(error)}
             />
             {option.label}
           </label>

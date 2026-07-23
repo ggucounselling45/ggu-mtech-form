@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ApplicationsList from "./ApplicationsList";
 import Statistics from "./Statistics";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const Dashboard = ({ onLogout }) => {
@@ -9,7 +9,6 @@ const Dashboard = ({ onLogout }) => {
   const [applications, setApplications] = useState([]);
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
-  const admin = useSelector((state) => state.admin);
 
 
 
