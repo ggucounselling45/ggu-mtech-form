@@ -135,7 +135,7 @@ const PersonalInfoSection = ({
         error={shouldShowFieldError("marksheet12") ? errors.marksheet12 : ""}
       />
 
-      <FormField
+      {/* <FormField
         label="B.Tech. / Any other qualifying Examination Percentage (Aggregate Percentage or CGPA)"
         name="marksBTech"
         value={form.marksBTech}
@@ -143,8 +143,49 @@ const PersonalInfoSection = ({
         required
         helperText="Enter CGPA upto 10 or percentage upto 100, for example 8.5 or 85."
         error={shouldShowFieldError("marksBTech") ? errors.marksBTech : ""}
-      />
+      /> */}
 
+      {/* //Addind a radio option of entering marks in cgpa or percentage for B.Tech. / Any other qualifying Examination */}
+
+      <RadioGroup
+        label="enter marks in CGPA or Percentage for B.Tech. / Any other qualifying Examination"
+        name="marksType"
+        value={form.marksType}
+        onChange={onChange}
+        options={[
+          { value: "cgpa", label: "CGPA" },
+          { value: "percentage", label: "Percentage" },
+        ]}
+        required
+        helperText="Select the type of marks you want to enter."
+        error={shouldShowFieldError("marksType") ? errors.marksType : ""}
+      />
+      {form.marksType === "cgpa" && (
+        <FormField
+          label="B.Tech. / Any other qualifying Examination CGPA"
+          name="cgpa"
+          value={form.cgpa}
+          onChange={onChange}
+          required
+          helperText="Enter CGPA upto 10."
+          error={shouldShowFieldError("cgpa") ? errors.cgpa : ""}
+        />
+      )}
+      {form.marksType === "percentage" && (
+        <FormField
+          label="B.Tech. / Any other qualifying Examination Percentage"
+          name="percentage"
+          value={form.percentage}
+          onChange={onChange}
+          required
+          helperText="Enter percentage upto 100."
+          error={shouldShowFieldError("percentage") ? errors.percentage : ""}
+        />
+      )}
+
+      {/* /.endinggg................ */}
+
+      {/* /normal code */}
       <FormField
         label="Qualifing Exam Passed"
         name="qualifyExam"
@@ -293,6 +334,17 @@ const PersonalInfoSection = ({
             required
             helperText="Enter the GATE Score"
             error={shouldShowFieldError("gateScore") ? errors.gateScore : ""}
+          />
+
+          <FormField
+            label="GATE Marks"
+            name="gateRank"
+            type="text"
+            value={form.gateRank}
+            onChange={onChange}
+            required
+            helperText="Enter the GATE Marks"
+            error={shouldShowFieldError("gateRank") ? errors.gateRank : ""}
           />
 
           <FormField

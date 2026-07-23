@@ -40,7 +40,7 @@ const validateInteger = (value, min, max) => {
 
 const getRequiredFileMessage = (label) => `${label} is required.`;
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL =  "http://localhost:4000" || process.env.REACT_APP_API_BASE_URL;
 
 
 const AdmissionForm = ({
@@ -91,13 +91,17 @@ const AdmissionForm = ({
     subjectOfStudy: "",
     otherQualification: "",
     marks12: "",
-    marksBTech: "",
+    // marksBTech
+    marksType: "",
+    cgpa: "",
+    percentage: "",
 
     // GATE
     gateQualified: "",
     applicationNum: "",
     yearOfExam: "",
     gateScore: "",
+    gateRank: "",
 
     // Admission
     physChallenged: "",
@@ -212,10 +216,33 @@ const AdmissionForm = ({
         return validateDecimal(value, 0, 100)
           ? ""
           : "12th Percentage must be between 0 and 100.";
-      case "marksBTech":
+      
+      case "marksType":
+        return ["cgpa", "percentage"].includes(value)
+          ? ""
+          : "Select either CGPA or Percentage.";
+
+      case "cgpa":
+        if (values.marksType !== "cgpa") {
+          return "";
+        }
+        if(!value.trim()) {
+          return "CGPA is required.";
+        } 
         return validateDecimal(value, 0, 10)
           ? ""
-          : "Enter CGPA upto 10 or percentage upto 100, for example 8.5 or 85.";
+          : "CGPA must be between 0 and 10.";
+
+      case "percentage":
+        if (values.marksType !== "percentage") {
+          return "";
+        }
+        if(!value.trim()) {
+          return "Percentage is required.";
+        }
+        return validateDecimal(value, 0, 100)
+          ? ""
+          : "Percentage must be between 0 and 100.";
       case "gateQualified":
         return ["Yes", "No"].includes(value)
           ? ""
@@ -244,12 +271,28 @@ const AdmissionForm = ({
         }
 
         if (!value.trim()) {
-          return "GATE Rank is required.";
+          return "GATE Score is required.";
         }
 
-        return validateInteger(value, 1, Number.MAX_SAFE_INTEGER)
+        return validateInteger(value, 1, 1000)
           ? ""
-          : "Invalid GATE Rank.";
+          : "Invalid GATE Score.";
+
+          //addition of gate rank validation
+      case "gateRank":
+        if (values.gateQualified !== "Yes") {
+          return "";
+        }
+        if (!value.trim()) {
+          return "GATE Rank is required.";
+        }
+        return validateInteger(value, 1, 100)
+          ? ""
+          : "Invalid GATE Marks.";
+
+
+
+
       case "gateScorecard":
         if (values.gateQualified !== "Yes") {
           return "";

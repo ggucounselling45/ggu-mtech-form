@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL =
+  "http://localhost:4000" || process.env.REACT_APP_API_BASE_URL;
 
 const ApplicationsList = ({ applications }) => {
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -171,6 +172,10 @@ const ApplicationsList = ({ applications }) => {
                     {selectedApplication.academicDetails.gateScore || "N/A"}
                   </p>
                   <p>
+                    <strong>Gate Marks:</strong>{" "}
+                    {selectedApplication.academicDetails.gateRank || "N/A"}
+                  </p>
+                  <p>
                     <strong>Gate Year of Examination:</strong>{" "}
                     {selectedApplication.academicDetails.yearOfExam || "N/A"}
                   </p>
@@ -216,6 +221,21 @@ const ApplicationsList = ({ applications }) => {
                 {selectedApplication.academicDetails.marks12 || "N/A"} %
               </p>
 
+              {selectedApplication.academicDetails.marksType ? (
+                selectedApplication.academicDetails.marksType ===
+                "percentage" ? (
+                  <p>
+                    <strong>B.Tech Percentage:</strong>{" "}
+                    {selectedApplication.academicDetails.percentage || "N/A"}%
+                  </p>
+                ) : (
+                  <p>
+                    <strong>B.Tech CGPA:</strong>{" "}
+                    {selectedApplication.academicDetails.cgpa || "N/A"}
+                  </p>
+                )
+              ) : null}
+
               <p>
                 <strong>Qualifying Exam:</strong>{" "}
                 {selectedApplication.academicDetails.qualifyExam || "N/A"}
@@ -234,7 +254,7 @@ const ApplicationsList = ({ applications }) => {
 
                   <p>
                     <strong>Branch Name:</strong>{" "}
-                    {selectedApplication.admissionDetails.branchName || "N/A"}
+                    {selectedApplication.admissionDetails.branchOfStudy || "N/A"}
                   </p>
                 </>
               ) : (
