@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ApplicationsList from "./ApplicationsList";
 import Statistics from "./Statistics";
-import { useSelector } from "react-redux";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
 const Dashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("applications");
   const [applications, setApplications] = useState([]);
-  const [statistics, setStatistics] = useState(null);
+  const [statistics] = useState(null);
   const [loading, setLoading] = useState(true);
 
 
