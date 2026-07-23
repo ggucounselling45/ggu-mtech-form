@@ -275,21 +275,23 @@ const PersonalInfoSection = ({
           <FormField
             label="GATE Year Of Examination"
             name="yearOfExam"
+            type="select"
             value={form.yearOfExam}
             onChange={onChange}
             required
-            helperText="Enter a year between 2000 and the current year."
+            options={["2024", "2025", "2026"]}
+            helperText="Select your GATE examination year."
             error={shouldShowFieldError("yearOfExam") ? errors.yearOfExam : ""}
           />
 
           <FormField
-            label="GATE Rank"
+            label="GATE Score"
             name="gateScore"
             type="number"
             value={form.gateScore}
             onChange={onChange}
             required
-            helperText="Enter the GATE rank as a whole number."
+            helperText="Enter the GATE Score as a whole number."
             error={shouldShowFieldError("gateScore") ? errors.gateScore : ""}
           />
 

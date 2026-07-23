@@ -471,7 +471,7 @@ const AdmissionForm = ({
 
       setErrors([
         {
-          msg: "Unable to connect to the server. Please try again.",
+          msg: "Unable to connect to the server. Please try after some time.",
         },
       ]);
 
