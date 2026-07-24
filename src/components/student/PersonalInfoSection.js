@@ -148,7 +148,7 @@ const PersonalInfoSection = ({
       {/* //Addind a radio option of entering marks in cgpa or percentage for B.Tech. / Any other qualifying Examination */}
 
       <RadioGroup
-        label="enter marks in CGPA or Percentage for B.Tech. / Any other qualifying Examination"
+        label="Enter marks in CGPA or Percentage for B.Tech. / Any other qualifying Examination"
         name="marksType"
         value={form.marksType}
         onChange={onChange}
