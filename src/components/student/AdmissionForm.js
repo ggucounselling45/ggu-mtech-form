@@ -40,8 +40,10 @@ const validateInteger = (value, min, max) => {
 
 const getRequiredFileMessage = (label) => `${label} is required.`;
 
-const API_BASE_URL =  "http://localhost:4000" || process.env.REACT_APP_API_BASE_URL;
-
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://ggu-mtech-form-b.vercel.app"
+    : "http://localhost:4000";
 
 const AdmissionForm = ({
   onSubmissionStart,
@@ -286,7 +288,7 @@ const AdmissionForm = ({
         if (!value.trim()) {
           return "GATE Rank is required.";
         }
-        return validateInteger(value, 1, 100)
+        return validateDecimal(value, 1, 100)
           ? ""
           : "Invalid GATE Marks.";
 

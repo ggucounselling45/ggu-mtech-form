@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 const API_BASE_URL =
-  "http://localhost:4000" || process.env.REACT_APP_API_BASE_URL;
+  process.env.NODE_ENV === "production"
+    ? "https://ggu-mtech-form-b.vercel.app"
+    : "http://localhost:4000";
 
 const ApplicationsList = ({ applications }) => {
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -266,171 +268,115 @@ const ApplicationsList = ({ applications }) => {
           </div>
 
           <div style={{ marginTop: "30px" }}>
-            <h3>Documents</h3>
-            <div style={{ display: "flex", gap: "15px", flexWrap: "wrap" }}>
-              {selectedApplication.documents.categoryCert?.url && (
-                <a
-                  href={selectedApplication.documents.categoryCert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "inline-block",
-                    padding: "10px 15px",
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Category Certificate
-                </a>
-              )}
-              {selectedApplication.documents.passportPhoto && (
-                <a
-                  href={selectedApplication.documents.passportPhoto.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#28a745",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Passport Photo
-                </a>
-              )}
-              {selectedApplication.documents.appForm && (
-                <a
-                  href={selectedApplication.documents.appForm.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#ffc107",
-                    color: "black",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Application Form
-                </a>
-              )}
-              {selectedApplication.documents.marksheet10 && (
-                <a
-                  href={selectedApplication.documents.marksheet10.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#17a2b8",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  10th Marksheet
-                </a>
-              )}
-              {selectedApplication.documents.marksheet12 && (
-                <a
-                  href={selectedApplication.documents.marksheet12.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#fd7e14",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  12th Marksheet
-                </a>
-              )}
-              {selectedApplication.documents.gateQualifyExam && (
-                <a
-                  href={selectedApplication.documents.gateQualifyExam.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#e83e8c",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Degree Certificate
-                </a>
-              )}
-              {selectedApplication.documents.gateScorecard && (
-                <a
-                  href={selectedApplication.documents.gateScorecard.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#e83e8c",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  GATE Scorecard
-                </a>
-              )}
-              {selectedApplication.documents.pwdCert && (
-                <a
-                  href={selectedApplication.documents.pwdCert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#20c997",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  PWD Certificate
-                </a>
-              )}
-              {selectedApplication.documents.allotmentLetter && (
-                <a
-                  href={selectedApplication.documents.allotmentLetter.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#20c997",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Allotment Letter
-                </a>
-              )}
-              {selectedApplication.documents.feeReceipt && (
-                <a
-                  href={selectedApplication.documents.feeReceipt.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#20c997",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Fee Receipt
-                </a>
-              )}
-            </div>
+  <h3 style={{ marginBottom: "20px" }}>Documents</h3>
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
+      gap: "20px",
+    }}
+  >
+    {[
+      {
+        title: "Category Certificate",
+        file: selectedApplication.documents.categoryCert,
+      },
+      {
+        title: "Passport Photo",
+        file: selectedApplication.documents.passportPhoto,
+      },
+      {
+        title: "Application Form",
+        file: selectedApplication.documents.appForm,
+      },
+      {
+        title: "10th Marksheet",
+        file: selectedApplication.documents.marksheet10,
+      },
+      {
+        title: "12th Marksheet",
+        file: selectedApplication.documents.marksheet12,
+      },
+      {
+        title: "Degree Certificate",
+        file: selectedApplication.documents.gateQualifyExam,
+      },
+      {
+        title: "GATE Scorecard",
+        file: selectedApplication.documents.gateScorecard,
+      },
+      {
+        title: "PWD Certificate",
+        file: selectedApplication.documents.pwdCert,
+      },
+      {
+        title: "Allotment Letter",
+        file: selectedApplication.documents.allotmentLetter,
+      },
+      {
+        title: "Fee Receipt",
+        file: selectedApplication.documents.feeReceipt,
+      },
+    ]
+      .filter((doc) => doc.file?.url)
+      .map((doc) => (
+        <div
+          key={doc.title}
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            overflow: "hidden",
+            background: "#fff",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div
+            style={{
+              padding: "12px 16px",
+              background: "#0d6efd",
+              color: "#fff",
+              fontWeight: "600",
+              textAlign: "center",
+            }}
+          >
+            {doc.title}
           </div>
+
+          <iframe
+            src={doc.file.url}
+            title={doc.title}
+            width="100%"
+            height="400"
+            style={{
+              border: "none",
+            }}
+          />
+
+          <div
+            style={{
+              padding: "10px",
+              textAlign: "center",
+              borderTop: "1px solid #eee",
+            }}
+          >
+            <a
+              href={doc.file.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#0d6efd",
+                fontWeight: "600",
+                textDecoration: "none",
+              }}
+            >
+              Open in New Tab
+            </a>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>
         </div>
       </div>
     );

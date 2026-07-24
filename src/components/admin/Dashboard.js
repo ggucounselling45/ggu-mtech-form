@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ApplicationsList from "./ApplicationsList";
 import Statistics from "./Statistics";
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://ggu-mtech-form-b.vercel.app"
+    : "http://localhost:4000";
 const Dashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState("applications");
   const [applications, setApplications] = useState([]);
