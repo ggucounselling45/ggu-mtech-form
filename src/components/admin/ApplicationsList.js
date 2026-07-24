@@ -244,8 +244,8 @@ const ApplicationsList = ({ applications }) => {
               </p>
 
               <p>
-                <strong>Branch Of Study:</strong>{" "}
-                {selectedApplication.academicDetails.subjectOfStudy || "N/A"}
+                <strong> Qualifying Branch/Streme Of Study:</strong>{" "}
+                {selectedApplication.academicDetails.subjectOfStudy ||selectedApplication.academicDetails.branchOfStudy || "N/A"}
               </p>
 
               {selectedApplication.admissionDetails.admissionStatus ? (
@@ -256,7 +256,8 @@ const ApplicationsList = ({ applications }) => {
 
                   <p>
                     <strong>Branch Name:</strong>{" "}
-                    {selectedApplication.admissionDetails.branchOfStudy || "N/A"}
+                    {selectedApplication.admissionDetails.branchName ||
+                      "N/A"}
                   </p>
                 </>
               ) : (
@@ -268,115 +269,121 @@ const ApplicationsList = ({ applications }) => {
           </div>
 
           <div style={{ marginTop: "30px" }}>
-  <h3 style={{ marginBottom: "20px" }}>Documents</h3>
+            <h3 style={{ marginBottom: "20px" }}>Documents</h3>
 
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
-      gap: "20px",
-    }}
-  >
-    {[
-      {
-        title: "Category Certificate",
-        file: selectedApplication.documents.categoryCert,
-      },
-      {
-        title: "Passport Photo",
-        file: selectedApplication.documents.passportPhoto,
-      },
-      {
-        title: "Application Form",
-        file: selectedApplication.documents.appForm,
-      },
-      {
-        title: "10th Marksheet",
-        file: selectedApplication.documents.marksheet10,
-      },
-      {
-        title: "12th Marksheet",
-        file: selectedApplication.documents.marksheet12,
-      },
-      {
-        title: "Degree Certificate",
-        file: selectedApplication.documents.gateQualifyExam,
-      },
-      {
-        title: "GATE Scorecard",
-        file: selectedApplication.documents.gateScorecard,
-      },
-      {
-        title: "PWD Certificate",
-        file: selectedApplication.documents.pwdCert,
-      },
-      {
-        title: "Allotment Letter",
-        file: selectedApplication.documents.allotmentLetter,
-      },
-      {
-        title: "Fee Receipt",
-        file: selectedApplication.documents.feeReceipt,
-      },
-    ]
-      .filter((doc) => doc.file?.url)
-      .map((doc) => (
-        <div
-          key={doc.title}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "10px",
-            overflow: "hidden",
-            background: "#fff",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
-          <div
-            style={{
-              padding: "12px 16px",
-              background: "#0d6efd",
-              color: "#fff",
-              fontWeight: "600",
-              textAlign: "center",
-            }}
-          >
-            {doc.title}
+            {[
+              {
+                title: "Category Certificate",
+                file: selectedApplication.documents.categoryCert,
+              },
+              {
+                title: "Passport Photo",
+                file: selectedApplication.documents.passportPhoto,
+              },
+              {
+                title: "Application Form",
+                file: selectedApplication.documents.appForm,
+              },
+              {
+                title: "10th Marksheet",
+                file: selectedApplication.documents.marksheet10,
+              },
+              {
+                title: "12th Marksheet",
+                file: selectedApplication.documents.marksheet12,
+              },
+              {
+                title: "Degree Certificate",
+                file: selectedApplication.documents.gateQualifyExam,
+              },
+              {
+                title: "GATE Scorecard",
+                file: selectedApplication.documents.gateScorecard,
+              },
+              {
+                title: "PWD Certificate",
+                file: selectedApplication.documents.pwdCert,
+              },
+              {
+                title: "Allotment Letter",
+                file: selectedApplication.documents.allotmentLetter,
+              },
+              {
+                title: "Fee Receipt",
+                file: selectedApplication.documents.feeReceipt,
+              },
+            ]
+              .filter((doc) => doc.file?.url)
+              .map((doc) => (
+                <div
+                  key={doc.title}
+                  style={{
+                    display: "flex",
+                    alignItems: "stretch",
+                    border: "1px solid #ddd",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    marginBottom: "25px",
+                    background: "#fff",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  }}
+                >
+                  {/* Left Side */}
+                  <div
+                    style={{
+                      width: "400px",
+                      color: "#000",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "20px",
+                      fontWeight: "600",
+                      fontSize: "18px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {doc.title}
+                  </div>
+
+                  {/* Right Side */}
+                  <div
+                    style={{
+                      flex: 1,
+                      padding: "15px",
+                    }}
+                  >
+                    <iframe
+                      src={doc.file.url}
+                      title={doc.title}
+                      width="100%"
+                      height="600"
+                      style={{
+                        border: "1px solid #ddd",
+                        borderRadius: "6px",
+                      }}
+                    />
+
+                    <div style={{ marginTop: "12px", textAlign: "right" }}>
+                      <a
+                        href={doc.file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: "8px 18px",
+                          background: "#198754",
+                          color: "#fff",
+                          textDecoration: "none",
+                          borderRadius: "5px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Open Full Document
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
           </div>
-
-          <iframe
-            src={doc.file.url}
-            title={doc.title}
-            width="100%"
-            height="400"
-            style={{
-              border: "none",
-            }}
-          />
-
-          <div
-            style={{
-              padding: "10px",
-              textAlign: "center",
-              borderTop: "1px solid #eee",
-            }}
-          >
-            <a
-              href={doc.file.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "#0d6efd",
-                fontWeight: "600",
-                textDecoration: "none",
-              }}
-            >
-              Open in New Tab
-            </a>
-          </div>
-        </div>
-      ))}
-  </div>
-</div>
         </div>
       </div>
     );
