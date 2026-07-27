@@ -7,7 +7,11 @@ import { setAdmin, clearAdmin } from "../app/slice/adminSlice";
 import LoginPage from "../components/admin/LoginPage";
 import Dashboard from "../components/admin/Dashboard";
 
-const API_BASE_URL = "http://localhost:4000" || process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://ggu-mtech-form-b.vercel.app"
+    : "http://localhost:4000";
+
 
 const AdminPage = () => {
   const dispatch = useDispatch();
