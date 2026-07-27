@@ -6,7 +6,7 @@ import FeeInfoSection from "../student/FeeInfoSection";
 import DocumentUploadSection from "../student/DocumentUploadSection";
 import DeclarationSection from "../student/DeclarationSection";
 
-const currentYear = new Date().getFullYear();
+// const currentYear = new Date().getFullYear();
 
 const isPdfFile = (file) =>
   file instanceof File && file.name.toLowerCase().endsWith(".pdf");
