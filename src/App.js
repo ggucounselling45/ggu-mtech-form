@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import StudentPage from "./pages/StudentPage";
 import AdminPage from "./pages/AdminPage";
+import StudentBtechPage from "./pages/StudentBtechPage";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotFound from "./components/common/NotFound";
 import "./App.css"; // Global styles for the application
@@ -26,6 +27,16 @@ function App() {
               element={
                 <ErrorBoundary>
                   <StudentPage />
+                </ErrorBoundary>
+              }
+            />
+
+            {/* Btech Student page */}
+            <Route
+              path="/studentBtech"
+              element={
+                <ErrorBoundary>
+                  <StudentBtechPage />
                 </ErrorBoundary>
               }
             />
@@ -54,6 +65,5 @@ function App() {
 }
 
 export default App;
-
 
 //ggv.admission2026@gmail.com

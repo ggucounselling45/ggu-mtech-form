@@ -155,6 +155,7 @@ const PersonalInfoSection = ({
         options={[
           { value: "cgpa", label: "CGPA" },
           { value: "percentage", label: "Percentage" },
+          { value: "ResultAwaited", label: "ResultAwaited" },
         ]}
         required
         helperText="Select the type of marks you want to enter."

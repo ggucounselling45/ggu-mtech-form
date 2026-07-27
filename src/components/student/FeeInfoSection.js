@@ -34,8 +34,8 @@ const FeeInfoSection = ({ form, onChange, errors, shouldShowFieldError }) => {
         value={form.amount}
         onChange={onChange}
         options={[
-          { value: "500", label: "500/-" },
-          { value: "300", label: "300/-" },
+          { value: "1000", label: "1000/-" },
+          { value: "700", label: "700/-" },
         ]}
         required
         helperText="Select the exact fee amount you paid."

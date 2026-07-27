@@ -2,7 +2,7 @@ import React from "react";
 import banner from "../../assets/banner.png";
 import "../../App.css";
 
-const Header = () => {
+const Header = ({title}) => {
   return (
     <>
       <img
@@ -18,7 +18,7 @@ const Header = () => {
           background: '#fff'
         }}
       />
-      <h2>APPLICATION FORM FOR M.TECH. SPOT/LOCAL COUNSELLING-2026-27</h2>
+      <h2>{title}</h2>
     </>
   );
 };

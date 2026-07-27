@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import PersonalInfoSection from "./PersonalInfoSection";
-import ContactInfoSection from "./ContactInfoSection";
-import FeeInfoSection from "./FeeInfoSection";
-import DocumentUploadSection from "./DocumentUploadSection";
-import DeclarationSection from "./DeclarationSection";
+import Header from "../student/Header";
+import PersonalInfoBtechSection from "./PersonalInfoBtechSection";
+import ContactInfoSection from "../student/ContactInfoSection";
+import FeeInfoSection from "../student/FeeInfoSection";
+import DocumentUploadSection from "../student/DocumentUploadSection";
+import DeclarationSection from "../student/DeclarationSection";
 
 const currentYear = new Date().getFullYear();
 
@@ -50,7 +50,6 @@ const AdmissionForm = ({
   onSubmissionSuccess,
   onSubmissionError,
 }) => {
-
   const [errors, setErrors] = useState([]);
   const [fieldErrors, setFieldErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
@@ -58,14 +57,14 @@ const AdmissionForm = ({
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-  if (errors.length > 0) {
-    const message = errors
-      .map((error, index) => `${index + 1}. ${error.msg}`)
-      .join("\n");
+    if (errors.length > 0) {
+      const message = errors
+        .map((error, index) => `${index + 1}. ${error.msg}`)
+        .join("\n");
 
-    alert(`Server is experiencing issues:\n\n${message}`);
-  }
-}, [errors]);
+      alert(`Server is experiencing issues:\n\n${message}`);
+    }
+  }, [errors]);
 
   const [form, setForm] = useState({
     name: "",
@@ -80,6 +79,15 @@ const AdmissionForm = ({
     address: "",
     mobile: "",
     altMobile: "",
+    jeeMainRoll: "",
+    jeeMainAllIndiaRank: "",
+    twelfthBoardName: "",
+    twelfthPassingYear: "",
+
+    // JOSAA/CSAB admission details
+    admissionStatus: "",
+    BranchAllotedBy: "",
+    branchName: "",
 
     // Fee
     refNo: "",
@@ -87,40 +95,23 @@ const AdmissionForm = ({
     bank: "",
     date_feepayment: "",
 
-    // Qualification
-    qualifyExam: "",
-    branchOfStudy: "",
-    subjectOfStudy: "",
-    otherQualification: "",
     marks12: "",
-    // marksBTech
-    marksType: "",
-    cgpa: "",
-    percentage: "",
-    ResultAwaited:"",
-
-    // GATE
-    gateQualified: "",
-    applicationNum: "",
-    yearOfExam: "",
-    gateScore: "",
-    gateRank: "",
 
     // Admission
     physChallenged: "",
-    admissionStatus: "",
-    branchName: "",
 
     // Files
     passportPhoto: null,
     marksheet10: null,
     marksheet12: null,
-    marksheetBTech: null,
-    gateQualifyExam: null,
-    gateScorecard: null,
+
     categoryCert: null,
     pwdCert: null,
+
     allotmentLetter: null,
+    DomicileCert: null,
+    jeeMainScoreCard: null,
+
     feeReceipt: null,
     appForm: null,
 
@@ -193,139 +184,62 @@ const AdmissionForm = ({
         }
 
         return Number.isNaN(Date.parse(value)) ? "Invalid Payment Date." : "";
-      case "qualifyExam":
-        return ["B.Tech.", "M.Sc", "MCA", "Any other"].includes(value)
-          ? ""
-          : "Select a valid qualifying exam.";
-      case "branchOfStudy":
-        if (values.qualifyExam !== "B.Tech.") {
-          return "";
-        }
 
-        return value.trim() ? "" : "Branch of Study is required.";
-      case "subjectOfStudy":
-        if (!["M.Sc", "MCA"].includes(values.qualifyExam)) {
-          return "";
-        }
-
-        return value.trim() ? "" : "Subject of Study is required.";
-      case "otherQualification":
-        if (values.qualifyExam !== "Any other") {
-          return "";
-        }
-
-        return value.trim() ? "" : "Please specify your qualification.";
       case "marks12":
         return validateDecimal(value, 0, 100)
           ? ""
           : "12th Percentage must be between 0 and 100.";
-      
-      case "marksType":
-        return ["cgpa", "percentage","ResultAwaited"].includes(value)
-          ? ""
-          : "Select either CGPA or Percentage.";
 
-      case "cgpa":
-        if (values.marksType !== "cgpa") {
-          return "";
-        }
-        if(!value.trim()) {
-          return "CGPA is required.";
-        } 
-        return validateDecimal(value, 0, 10)
-          ? ""
-          : "CGPA must be between 0 and 10.";
+      case "twelfthBoardName":
+        return value.trim() ? "" : "Twelfth Board Name is required.";
 
-      case "percentage":
-        if (values.marksType !== "percentage") {
-          return "";
-        }
-        if(!value.trim()) {
-          return "Percentage is required.";
-        }
-        return validateDecimal(value, 0, 100)
-          ? ""
-          : "Percentage must be between 0 and 100.";
-
-       case "ResultAwaited":
-        return "";   
-
-
-
-      case "gateQualified":
-        return ["Yes", "No"].includes(value)
-          ? ""
-          : "Select a valid GATE qualification status.";
-      case "applicationNum":
-        if (values.gateQualified !== "Yes") {
-          return "";
+      case "twelfthPassingYear":
+        if (!value) {
+          return "Passing date is required.";
         }
 
-        return value.trim() ? "" : "GATE Application Number is required.";
-      case "yearOfExam":
-        if (values.gateQualified !== "Yes") {
-          return "";
-        }
+        return Number.isNaN(Date.parse(value)) ? "Invalid passing date." : "";
 
-        if (!value.trim()) {
-          return "GATE Examination Year is required.";
-        }
-
-        return validateInteger(value, 2000, currentYear)
-          ? ""
-          : "Invalid GATE Examination Year.";
-      case "gateScore":
-        if (values.gateQualified !== "Yes") {
-          return "";
-        }
-
-        if (!value.trim()) {
-          return "GATE Score is required.";
-        }
-
-        return validateInteger(value, 1, 1000)
-          ? ""
-          : "Invalid GATE Score.";
-
-          //addition of gate rank validation
-      case "gateRank":
-        if (values.gateQualified !== "Yes") {
-          return "";
-        }
-        if (!value.trim()) {
-          return "GATE Rank is required.";
-        }
-        return validateDecimal(value, 1, 100)
-          ? ""
-          : "Invalid GATE Marks.";
-
-
-
-
-      case "gateScorecard":
-        if (values.gateQualified !== "Yes") {
-          return "";
-        }
-
-        return value
-          ? isPdfFile(value)
-            ? ""
-            : "GATE Scorecard must be a PDF file."
-          : getRequiredFileMessage("GATE Scorecard");
-      case "physChallenged":
-        return ["Yes", "No"].includes(value)
-          ? ""
-          : "Select a valid physically challenged value.";
+      //Admission through JOSAA or CSAB
       case "admissionStatus":
         return ["Yes", "No"].includes(value)
           ? ""
           : "Select a valid admission status.";
+      case "BranchAllotedBy":
+        if (values.admissionStatus !== "Yes") {
+          return "";
+        }
+        return ["JoSAA", "CSAB"].includes(value)
+          ? ""
+          : "Select a counseling authority.";
       case "branchName":
         if (values.admissionStatus !== "Yes") {
           return "";
         }
+        return value.trim() ? "" : "Branch Name is required.";
+      case "jeeMainRoll":
+        if (!value.trim()) {
+          return "JEE Main Roll Number is required.";
+        }
 
-        return value.trim() ? "" : "Program Name is required.";
+        return validateInteger(value, 1, 9999999999)
+          ? ""
+          : "Invalid JEE Main Roll Number.";
+
+      case "jeeMainAllIndiaRank":
+        if (!value.trim()) {
+          return "JEE Main All India Rank is required.";
+        }
+
+        return validateInteger(value, 1, 9999999)
+          ? ""
+          : "Invalid JEE Main All India Rank.";
+
+      case "physChallenged":
+        return ["Yes", "No"].includes(value)
+          ? ""
+          : "Select a valid physically challenged value.";
+
       case "declaration":
         return value === true ? "" : "Please accept the declaration.";
       case "mailDeclaration":
@@ -350,16 +264,21 @@ const AdmissionForm = ({
             ? ""
             : "Class 12th Marksheet must be a PDF file."
           : getRequiredFileMessage("Class 12th Marksheet");
-      case "gateQualifyExam":
-        if (!values.qualifyExam) {
-          return "";
-        }
 
+      case "jeeMainScoreCard":
         return value
           ? isPdfFile(value)
             ? ""
-            : "Qualifying Exam Certificate must be a PDF file."
-          : getRequiredFileMessage("Qualifying Exam Certificate");
+            : "JEE Main must be a PDF file."
+          : getRequiredFileMessage("JEE Main Score Card");
+
+      case "DomicileCert":
+        return value
+          ? isPdfFile(value)
+            ? ""
+            : "Domicile Certificate must be a PDF file."
+          : getRequiredFileMessage("Domicile Certificate");
+
       case "categoryCert":
         if (values.category === "Gen" || !values.category) {
           return "";
@@ -476,7 +395,7 @@ const AdmissionForm = ({
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/user/submit-form`,
+        `${API_BASE_URL}/api/userBtech/submit-Btech-form`,
         {
           method: "POST",
           body: formData,
@@ -535,9 +454,9 @@ const AdmissionForm = ({
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: 500, margin: "auto" }}>
-      <Header title="APPLICATION FORM FOR M.TECH. SPOT/LOCAL COUNSELLING-2026-27" />
+      <Header title="APPLICATION FORM FOR B.TECH. SPOT/LOCAL COUNSELLING-2026-27" />
 
-      <PersonalInfoSection
+      <PersonalInfoBtechSection
         form={form}
         onChange={handleChange}
         errors={fieldErrors}
