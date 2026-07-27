@@ -26,7 +26,7 @@ function App() {
               path="/student"
               element={
                 <ErrorBoundary>
-                  <Studen  tPage />
+                  <StudentPage />
                 </ErrorBoundary>
               }
             />
