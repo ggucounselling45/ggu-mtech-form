@@ -91,7 +91,7 @@ const PersonalInfoSection = ({
       />
 
       <FormField
-        label="Upload Passport Size Photograph"
+        label="Upload Passport Size Photograph (File Size 50 KB - 100 KB)"
         name="passportPhoto"
         type="file"
         accept=".pdf"
@@ -104,7 +104,7 @@ const PersonalInfoSection = ({
       />
 
       <FormField
-        label="Upload Class 10th Marksheet"
+        label="Upload Class 10th Marksheet (File Size 50 KB - 200 KB)"
         name="marksheet10"
         type="file"
         accept=".pdf"
@@ -125,7 +125,7 @@ const PersonalInfoSection = ({
       />
 
       <FormField
-        label="Upload Class 12th Marksheet / Equivalent Certificate Marksheets"
+        label="Upload Class 12th Marksheet / Equivalent Certificate Marksheets (File Size 50 KB - 200 KB)"
         name="marksheet12"
         type="file"
         accept=".pdf"
@@ -155,7 +155,7 @@ const PersonalInfoSection = ({
         options={[
           { value: "cgpa", label: "CGPA" },
           { value: "percentage", label: "Percentage" },
-          { value: "ResultAwaited", label: "ResultAwaited" },
+          { value: "ResultAwaited", label: "Result Awaited" },
         ]}
         required
         helperText="Select the type of marks you want to enter."
@@ -267,7 +267,7 @@ const PersonalInfoSection = ({
 
       {qualifyingExamOptions.includes(form.qualifyExam) && (
         <FormField
-          label="Grade/Mark sheets of qualifying examination for all semesters,if awaited then uptill pre-final semester in single PDF file"
+          label="Grade/Mark sheets of qualifying examination for all semesters,if awaited then uptill pre-final semester in single PDF file (50 KB - 300 KB)"
           name="gateQualifyExam"
           type="file"
           accept=".pdf"
@@ -349,7 +349,7 @@ const PersonalInfoSection = ({
           />
 
           <FormField
-            label="Upload GATE Scorecard and Admit Card (Single PDF)"
+            label="Upload GATE Scorecard and Admit Card (Single PDF) (File Size 50 KB - 200 KB)"
             name="gateScorecard"
             type="file"
             accept=".pdf"
@@ -377,7 +377,7 @@ const PersonalInfoSection = ({
 
       {form.category && form.category === "Gen-EWS" && (
         <FormField
-          label="Upload Gen-EWS Certificate (PDF)"
+          label="Upload Gen-EWS Certificate (PDF) (File Size 50 KB - 200 KB)"
           helperText="Upload category certificate issued on or after April 01, 2026 or should have mentioned validity at least upto August 31, 2026."
           name="categoryCert"
           type="file"
@@ -392,7 +392,7 @@ const PersonalInfoSection = ({
 
       {form.category && form.category === "OBC-NCL" && (
         <FormField
-          label="Upload OBC-NCL Certificate (PDF)"
+          label="Upload OBC-NCL Certificate (PDF) (File Size 50 KB - 200 KB)"
           helperText="Upload category certificate issued on or after April 01, 2026 or should have mentioned validity at least upto August 31, 2026."
           name="categoryCert"
           type="file"
@@ -407,7 +407,7 @@ const PersonalInfoSection = ({
 
       {form.category && form.category === "SC" && (
         <FormField
-          label="Upload SC Certificate (PDF)"
+          label="Upload SC Certificate (PDF) (File Size 50 KB - 200 KB)"
           name="categoryCert"
           type="file"
           onChange={onChange}
@@ -421,7 +421,7 @@ const PersonalInfoSection = ({
       )}
       {form.category && form.category === "ST" && (
         <FormField
-          label="Upload ST Certificate (PDF)"
+          label="Upload ST Certificate (PDF) (File Size 50 KB - 200 KB)"
           name="categoryCert"
           type="file"
           onChange={onChange}
@@ -451,7 +451,7 @@ const PersonalInfoSection = ({
       />
       {form.physChallenged === "Yes" && (
         <FormField
-          label="Upload UDID Certificate / PWD Certificate "
+          label="Upload UDID Certificate / PWD Certificate (File Size 50 KB - 200 KB)"
           name="pwdCert"
           type="file"
           onChange={onChange}
@@ -502,7 +502,7 @@ const PersonalInfoSection = ({
             error={shouldShowFieldError("branchName") ? errors.branchName : ""}
           />
           <FormField
-            label="Upload Provisional Allotment Letter"
+            label="Upload Provisional Allotment Letter (File Size 50 KB - 200 KB)"
             name="allotmentLetter"
             type="file"
             onChange={onChange}
