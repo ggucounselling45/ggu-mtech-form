@@ -13,7 +13,7 @@ const PersonalInfoSection = ({
   return (
     <>
       <FormField
-            label="Course to Apply for"
+            label="M.Tech Course to Apply for"
             name="applyCourseBranch"
             type="select"
             value={form.applyCourseBranch}
@@ -28,6 +28,7 @@ const PersonalInfoSection = ({
               "Mechanical Engineering",
               "Water Resources & Environmental Engineering",
               "Geotechnical Engineering",
+              "Energy & Environmental Engineering",
             ]}
             required
             helperText="Required only when admission status is Yes."
