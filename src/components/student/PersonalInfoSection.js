@@ -13,6 +13,28 @@ const PersonalInfoSection = ({
   return (
     <>
       <FormField
+            label="Course to Apply for"
+            name="applyCourseBranch"
+            type="select"
+            value={form.applyCourseBranch}
+            onChange={onChange}
+            options={[
+              "Computer Science & Engineering",
+              "Information Technology",
+              "Structural Engineering",
+              "Electronics & Communication Engineering",
+              "CAD CAM & Robotics",
+              "Chemical Engineering",
+              "Mechanical Engineering",
+              "Water Resources & Environmental Engineering",
+              "Geotechnical Engineering",
+            ]}
+            required
+            helperText="Required only when admission status is Yes."
+            error={shouldShowFieldError("branchName") ? errors.branchName : ""}
+          />
+
+      <FormField
         label="Name of the Candidate (as per 10th standard certificate)"
         name="name"
         value={form.name}
@@ -94,10 +116,10 @@ const PersonalInfoSection = ({
         label="Upload Passport Size Photograph (File Size 50 KB - 100 KB)"
         name="passportPhoto"
         type="file"
-        accept=".pdf"
+        accept=".jpg,.jpeg,.png"
         onChange={onChange}
         required
-        helperText="PDF only."
+        helperText="Image files only (JPG, JPEG, PNG)."
         error={
           shouldShowFieldError("passportPhoto") ? errors.passportPhoto : ""
         }

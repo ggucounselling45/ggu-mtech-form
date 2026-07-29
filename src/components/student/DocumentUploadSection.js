@@ -22,7 +22,7 @@ const DocumentUploadSection = ({
       />
 
       <FormField
-        label="Upload Filled Application Form (downloaded from GGV University Website and filled in own handwriting) along with all uploaded documents in a single PDF file with Max file size 300 KB"
+        label="Upload Filled Application Form (downloaded from GGV University Website and filled in own handwriting) along with all uploaded documents in a single PDF file with Max file size 1 MB"
         name="appForm"
         type="file"
         accept=".pdf"

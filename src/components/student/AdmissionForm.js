@@ -25,6 +25,13 @@ const validateDecimal = (value, min, max) => {
   return Number.isFinite(parsed) && parsed >= min && parsed <= max;
 };
 
+const isImageFile = (file) => {
+  if (!file) return false;
+
+  const allowedTypes = ["image/jpeg", "image/png"];
+  return allowedTypes.includes(file.type);
+};
+
 const validateInteger = (value, min, max) => {
   if (value === "") {
     return false;
@@ -68,6 +75,9 @@ const AdmissionForm = ({
 }, [errors]);
 
   const [form, setForm] = useState({
+
+    applyCourseBranch: "",
+    
     name: "",
     fatherName: "",
     motherName: "",
@@ -332,12 +342,12 @@ const AdmissionForm = ({
         return value === true
           ? ""
           : "Please confirm that you have sent the email.";
-      case "passportPhoto":
-        return value
-          ? isPdfFile(value)
-            ? ""
-            : "Passport size photograph must be a PDF file."
-          : getRequiredFileMessage("Passport size photograph");
+     case "passportPhoto":
+  return value
+    ? isImageFile(value)
+      ? ""
+      : "Passport size photograph must be a JPG, JPEG, or PNG file."
+    : getRequiredFileMessage("Passport size photograph");
       case "marksheet10":
         return value
           ? isPdfFile(value)
