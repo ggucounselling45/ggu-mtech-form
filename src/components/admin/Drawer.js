@@ -24,10 +24,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://ggu-mtech-form-b.vercel.app"
-    : "http://localhost:4000";
 
 const drawerWidth = 240;
 

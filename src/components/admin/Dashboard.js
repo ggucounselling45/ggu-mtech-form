@@ -1,4 +1,4 @@
-import {React, useCallback, useEffect, useState} from "react";
+import {React, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setApplications } from "../../app/slice/mtechSlice";
 
@@ -11,7 +11,6 @@ const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
     const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
-    const [loading, setLoading] = useState(true);
   
   
  const fetchApplications = async () => {

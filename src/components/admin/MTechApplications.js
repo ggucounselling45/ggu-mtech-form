@@ -16,7 +16,6 @@ const MTechApplications = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
-  const error = useSelector((store) => store.mtech.error);
 
   
 
