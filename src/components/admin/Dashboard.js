@@ -1,141 +1,94 @@
-import React, { useState, useEffect, useCallback } from "react";
-import ApplicationsList from "./ApplicationsList";
-import Statistics from "./Statistics";
+import {React, useCallback, useEffect, useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setApplications } from "../../app/slice/mtechSlice";
 
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://ggu-mtech-form-b.vercel.app"
     : "http://localhost:4000";
-    
-const Dashboard = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState("applications");
-  const [applications, setApplications] = useState([]);
-  const [statistics] = useState(null);
-  const [loading, setLoading] = useState(true);
 
+const Dashboard = () => {
+  const admin = useSelector((state) => state.admin.admin.admin);
+    const dispatch = useDispatch();
+  const applications = useSelector((store) => store.mtech.applications);
+    const [loading, setLoading] = useState(true);
+  
+  
+ const fetchApplications = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
+      method: "GET",
+      credentials: "include",
+    });
 
+    const data = await response.json();
+    console.log("Fetched Applications:", data);
 
-  const fetchApplications = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setApplications(data.applications);
-      }
-    } catch (error) {
-      console.error("Error fetching applications:", error);
-    } finally {
-      setLoading(false);
+    if (response.ok) {
+      dispatch(setApplications(data));
     }
-  }, []);
+  } catch (error) {
+    console.error("Error fetching applications:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  // const fetchStatistics = useCallback(async () => {
-  //   try {
-  //     const response = await fetch(`${API_BASE_URL}/api/admin/statistics`, {
-  //       headers: getAuthHeaders(),
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setStatistics(data.statistics);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching statistics:", error);
-  //   }
-  // }, []);
-
-  useEffect(() => {
+useEffect(() => {
+  if (applications.totalApplications === undefined) {
     fetchApplications();
-    // fetchStatistics();
-  }, [fetchApplications]);
+  } else {
+    setLoading(false);
+  }
+}, []);
+
+  const dashboardCards = [
+    {
+      title: "M.Tech Applications",
+      value: applications.totalApplications,
+    },
+    {
+      title: "B.Tech Applications",
+      value: 0,
+    },
+    {
+      title: "Registered Users",
+      value: 0,
+    },
+    {
+      title: "Total Submissions",
+      value: applications.totalApplications ,
+    },
+  ];
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
-      {/* Header */}
-      <div
-        style={{
-          backgroundColor: "#fff",
-          padding: "15px 30px",
-          borderBottom: "1px solid #ddd",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1 style={{ margin: 0, color: "#333" }}>GGU Admin Dashboard</h1>
-        <button
-          onClick={onLogout}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#dc3545",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Logout
-        </button>
+    <div className="space-y-6 ">
+      {/* Welcome Card */}
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="text-3xl font-bold text-slate-800">
+          Welcome back, {admin?.name}
+        </h2>
+
+        <p className="mt-2 text-lg text-slate-600">
+          Your role is{" "}
+          <span className="font-semibold text-green-600">{admin?.role}</span>
+        </p>
       </div>
 
-      {/* Navigation Tabs */}
-      <div
-        style={{
-          backgroundColor: "#fff",
-          padding: "0 30px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <div style={{ display: "flex" }}>
-          <button
-            onClick={() => setActiveTab("applications")}
-            style={{
-              padding: "15px 25px",
-              border: "none",
-              backgroundColor:
-                activeTab === "applications" ? "#007bff" : "transparent",
-              color: activeTab === "applications" ? "white" : "#333",
-              cursor: "pointer",
-              borderBottom:
-                activeTab === "applications" ? "2px solid #007bff" : "none",
-            }}
+      {/* Future Dashboard Cards */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {dashboardCards.map((card) => (
+          <div
+            key={card.title}
+            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
           >
-            Applications ({applications.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("statistics")}
-            style={{
-              padding: "15px 25px",
-              border: "none",
-              backgroundColor:
-                activeTab === "statistics" ? "#007bff" : "transparent",
-              color: activeTab === "statistics" ? "white" : "#333",
-              cursor: "pointer",
-              borderBottom:
-                activeTab === "statistics" ? "2px solid #007bff" : "none",
-            }}
-          >
-            Statistics
-          </button>
-        </div>
-      </div>
+            <p className="text-sm text-slate-500">{card.title}</p>
 
-      {/* Content */}
-      <div style={{ padding: "30px" }}>
-        {loading ? (
-          <div style={{ textAlign: "center" }}>Loading...</div>
-        ) : (
-          <>
-            {activeTab === "applications" && (
-              <ApplicationsList applications={applications} />
-            )}
-            {activeTab === "statistics" && (
-              <Statistics statistics={statistics} />
-            )}
-          </>
-        )}
+            <h3 className="mt-2 text-3xl font-bold text-slate-800">
+              {card.value}
+            </h3>
+          </div>
+        ))}
       </div>
     </div>
   );

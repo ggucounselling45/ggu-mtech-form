@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import { setAdmin, clearAdmin } from "../app/slice/adminSlice";
-
 import LoginPage from "../components/admin/LoginPage";
 import Dashboard from "../components/admin/Dashboard";
+import AdminLayout from "../components/admin/AdminLayout";
+import MTechApplications from "../components/admin/MTechApplications.js";
+import BTechApplications from "../components/admin/BTechApplications";
+import UserManagement from "../components/admin/UserManagement";
 
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
@@ -33,7 +35,7 @@ const AdminPage = () => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          dispatch(setAdmin(data.admin));
+          dispatch(setAdmin(data));
           setIsAuthenticated(true);
         } else {
           dispatch(clearAdmin());
@@ -74,57 +76,63 @@ const AdminPage = () => {
   };
 
   if (loading) {
-    return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "20px",
-          fontWeight: "600",
-        }}
-      >
-        Loading...
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex items-center gap-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+
+        <p className="text-xl font-semibold text-gray-700">
+          Loading...
+        </p>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
-    <div className="admin-page">
+    <div className="min-h-screen bg-gray-100">
       <Routes>
-        <Route
-          path="login"
-          element={
-            isAuthenticated ? (
-              <Navigate replace to="/admin/dashboard" />
-            ) : (
-              <LoginPage onLogin={handleLogin} />
-            )
-          }
-        />
+  {/* Login */}
+  <Route
+    path="login"
+    element={
+      isAuthenticated ? (
+        <Navigate to="/admin/dashboard" replace />
+      ) : (
+        <LoginPage onLogin={handleLogin} />
+      )
+    }
+  />
 
-        <Route
-          path="dashboard"
-          element={
-            isAuthenticated ? (
-              <Dashboard onLogout={handleLogout} />
-            ) : (
-              <Navigate replace to="/admin/login" />
-            )
-          }
-        />
+  {/* Protected Routes */}
+  <Route
+    element={
+      isAuthenticated ? (
+        <AdminLayout onLogout={handleLogout} />
+      ) : (
+        <Navigate to="/admin/login" replace />
+      )
+    }
+  >
+    {/* Default page after login */}
+    <Route index element={<Navigate to="dashboard" replace />} />
 
-        <Route
-          path="*"
-          element={
-            <Navigate
-              replace
-              to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
-            />
-          }
-        />
-      </Routes>
+    <Route path="dashboard" element={<Dashboard />} />
+    <Route path="mtech" element={<MTechApplications />} />
+    <Route path="btech" element={<BTechApplications />} />
+    <Route path="users" element={<UserManagement />} />
+  </Route>
+
+  <Route
+    path="*"
+    element={
+      <Navigate
+        to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
+        replace
+      />
+    }
+  />
+</Routes>
     </div>
   );
 };

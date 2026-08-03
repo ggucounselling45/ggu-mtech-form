@@ -1,113 +1,66 @@
-import React from 'react';
+import React from "react";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
+    };
   }
 
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log the error to console or error reporting service
-    console.error('Error Boundary caught an error:', error, errorInfo);
+    console.error("Error Boundary caught an error:", error, errorInfo);
+
     this.setState({
-      error: error,
-      errorInfo: errorInfo
+      error,
+      errorInfo,
     });
   }
 
   render() {
     if (this.state.hasError) {
-      // Custom error UI
       return (
-        <div style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-        }}>
-          <div style={{
-            maxWidth: '600px',
-            textAlign: 'center',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '20px',
-            padding: '60px 40px',
-            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
-          }}>
-            <h1 style={{
-              fontSize: '3rem',
-              marginBottom: '20px',
-              fontWeight: '700'
-            }}>
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 px-4">
+          <div className="w-full max-w-2xl rounded-2xl border border-white/20 bg-white/10 p-10 text-center text-white shadow-2xl backdrop-blur-lg">
+            <h1 className="mb-5 text-5xl font-bold">
               ⚠️ Something went wrong
             </h1>
-            
-            <p style={{
-              fontSize: '1.2rem',
-              marginBottom: '30px',
-              opacity: '0.9'
-            }}>
-              We're sorry, but something unexpected happened in the GGU Admission System.
+
+            <p className="mb-8 text-lg opacity-90">
+              We're sorry, but something unexpected happened in the GGU
+              Admission System.
             </p>
-            
+
             <button
               onClick={() => window.location.reload()}
-              style={{
-                background: 'rgba(255, 255, 255, 0.2)',
-                color: 'white',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '12px',
-                padding: '15px 30px',
-                fontSize: '1.1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                e.target.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-                e.target.style.transform = 'translateY(0)';
-              }}
+              className="rounded-xl border-2 border-white/30 bg-white/20 px-8 py-4 text-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:bg-white/30"
             >
               🔄 Reload Page
             </button>
-            
-            <div style={{
-              marginTop: '30px',
-              fontSize: '0.9rem',
-              opacity: '0.7'
-            }}>
-              <p>If this problem persists, please contact the system administrator.</p>
+
+            <div className="mt-8 text-sm opacity-70">
+              <p>
+                If this problem persists, please contact the system
+                administrator.
+              </p>
             </div>
-            
-            {process.env.NODE_ENV === 'development' && (
-              <details style={{
-                marginTop: '30px',
-                textAlign: 'left',
-                background: 'rgba(0, 0, 0, 0.3)',
-                padding: '20px',
-                borderRadius: '8px',
-                fontSize: '0.8rem'
-              }}>
-                <summary style={{ cursor: 'pointer', marginBottom: '10px' }}>
+
+            {process.env.NODE_ENV === "development" && (
+              <details className="mt-8 rounded-lg bg-black/30 p-5 text-left text-sm">
+                <summary className="mb-3 cursor-pointer font-medium">
                   🔍 Error Details (Development)
                 </summary>
-                <pre style={{ whiteSpace: 'pre-wrap' }}>
+
+                <pre className="whitespace-pre-wrap break-words">
                   {this.state.error && this.state.error.toString()}
                   <br />
-                  {this.state.errorInfo.componentStack}
+                  {this.state.errorInfo?.componentStack}
                 </pre>
               </details>
             )}

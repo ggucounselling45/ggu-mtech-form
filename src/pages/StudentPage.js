@@ -30,7 +30,7 @@ const StudentPage = () => {
   }
 
   return (
-    <div className="student-page">
+    <div className="min-h-screen bg-[#f5d8bb] font-sans">
       <AdmissionForm
         onSubmissionStart={handleSubmissionStart}
         onSubmissionSuccess={handleSubmissionSuccess}

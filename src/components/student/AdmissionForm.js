@@ -57,7 +57,6 @@ const AdmissionForm = ({
   onSubmissionSuccess,
   onSubmissionError,
 }) => {
-
   const [errors, setErrors] = useState([]);
   const [fieldErrors, setFieldErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
@@ -65,19 +64,18 @@ const AdmissionForm = ({
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-  if (errors.length > 0) {
-    const message = errors
-      .map((error, index) => `${index + 1}. ${error.msg}`)
-      .join("\n");
+    if (errors.length > 0) {
+      const message = errors
+        .map((error, index) => `${index + 1}. ${error.msg}`)
+        .join("\n");
 
-    alert(`Server is experiencing issues:\n\n${message}`);
-  }
-}, [errors]);
+      alert(`Server is experiencing issues:\n\n${message}`);
+    }
+  }, [errors]);
 
   const [form, setForm] = useState({
-
     applyCourseBranch: "",
-    
+
     name: "",
     fatherName: "",
     motherName: "",
@@ -107,7 +105,7 @@ const AdmissionForm = ({
     marksType: "",
     cgpa: "",
     percentage: "",
-    ResultAwaited:"",
+    ResultAwaited: "",
 
     // GATE
     gateQualified: "",
@@ -229,9 +227,9 @@ const AdmissionForm = ({
         return validateDecimal(value, 0, 100)
           ? ""
           : "12th Percentage must be between 0 and 100.";
-      
+
       case "marksType":
-        return ["cgpa", "percentage","ResultAwaited"].includes(value)
+        return ["cgpa", "percentage", "ResultAwaited"].includes(value)
           ? ""
           : "Select either CGPA or Percentage.";
 
@@ -239,9 +237,9 @@ const AdmissionForm = ({
         if (values.marksType !== "cgpa") {
           return "";
         }
-        if(!value.trim()) {
+        if (!value.trim()) {
           return "CGPA is required.";
-        } 
+        }
         return validateDecimal(value, 0, 10)
           ? ""
           : "CGPA must be between 0 and 10.";
@@ -250,17 +248,15 @@ const AdmissionForm = ({
         if (values.marksType !== "percentage") {
           return "";
         }
-        if(!value.trim()) {
+        if (!value.trim()) {
           return "Percentage is required.";
         }
         return validateDecimal(value, 0, 100)
           ? ""
           : "Percentage must be between 0 and 100.";
 
-       case "ResultAwaited":
-        return "";   
-
-
+      case "ResultAwaited":
+        return "";
 
       case "gateQualified":
         return ["Yes", "No"].includes(value)
@@ -293,11 +289,9 @@ const AdmissionForm = ({
           return "GATE Score is required.";
         }
 
-        return validateInteger(value, 1, 1000)
-          ? ""
-          : "Invalid GATE Score.";
+        return validateInteger(value, 1, 1000) ? "" : "Invalid GATE Score.";
 
-          //addition of gate rank validation
+      //addition of gate rank validation
       case "gateRank":
         if (values.gateQualified !== "Yes") {
           return "";
@@ -305,12 +299,7 @@ const AdmissionForm = ({
         if (!value.trim()) {
           return "GATE Rank is required.";
         }
-        return validateDecimal(value, 1, 100)
-          ? ""
-          : "Invalid GATE Marks.";
-
-
-
+        return validateDecimal(value, 1, 100) ? "" : "Invalid GATE Marks.";
 
       case "gateScorecard":
         if (values.gateQualified !== "Yes") {
@@ -342,12 +331,12 @@ const AdmissionForm = ({
         return value === true
           ? ""
           : "Please confirm that you have sent the email.";
-     case "passportPhoto":
-  return value
-    ? isImageFile(value)
-      ? ""
-      : "Passport size photograph must be a JPG, JPEG, or PNG file."
-    : getRequiredFileMessage("Passport size photograph");
+      case "passportPhoto":
+        return value
+          ? isImageFile(value)
+            ? ""
+            : "Passport size photograph must be a JPG, JPEG, or PNG file."
+          : getRequiredFileMessage("Passport size photograph");
       case "marksheet10":
         return value
           ? isPdfFile(value)
@@ -485,13 +474,10 @@ const AdmissionForm = ({
     }
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/user/submit-form`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await fetch(`${API_BASE_URL}/api/user/submit-form`, {
+        method: "POST",
+        body: formData,
+      });
 
       const contentType = response.headers.get("content-type");
 
@@ -544,7 +530,10 @@ const AdmissionForm = ({
     hasSubmittedOnce || touchedFields[name];
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 500, margin: "auto" }}>
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto max-w-lg rounded-xl border-t-[12px] border-t-[#6e5838] bg-[#ebe9e9] px-7 py-9 shadow-lg"
+    >
       <Header title="APPLICATION FORM FOR M.TECH. SPOT/LOCAL COUNSELLING-2026-27" />
 
       <PersonalInfoSection
@@ -579,48 +568,17 @@ const AdmissionForm = ({
       />
 
       {submitting && (
-        <div
-          style={{
-            marginTop: "20px",
-            marginBottom: "20px",
-            padding: "18px",
-            borderRadius: "10px",
-            background: "#EFF6FF",
-            border: "1px solid #BFDBFE",
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-          }}
-        >
-          <div
-            style={{
-              width: "24px",
-              height: "24px",
-              border: "3px solid #DBEAFE",
-              borderTop: "3px solid #2563EB",
-              borderRadius: "50%",
-              animation: "spin 1s linear infinite",
-            }}
-          />
+        <div className="mt-5 mb-5 flex items-center gap-4 rounded-lg border border-blue-200 bg-blue-50 p-5">
+          <div className="h-6 w-6 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
 
           <div>
-            <strong
-              style={{
-                color: "#1D4ED8",
-              }}
-            >
+            <p className="font-semibold text-blue-700">
               Submitting your application...
-            </strong>
+            </p>
 
-            <div
-              style={{
-                marginTop: "4px",
-                fontSize: "14px",
-                color: "#475569",
-              }}
-            >
+            <p className="mt-1 text-sm text-slate-600">
               Please don't refresh or close this page.
-            </div>
+            </p>
           </div>
         </div>
       )}
@@ -628,19 +586,11 @@ const AdmissionForm = ({
       <button
         type="submit"
         disabled={submitting}
-        style={{
-          marginTop: 20,
-          width: "100%",
-          padding: "14px",
-          fontSize: "16px",
-          fontWeight: "600",
-          border: "none",
-          borderRadius: "8px",
-          background: submitting ? "#94A3B8" : "#2563EB",
-          color: "#fff",
-          cursor: submitting ? "not-allowed" : "pointer",
-          transition: "0.3s",
-        }}
+        className={`mt-5 w-full rounded-lg py-3 text-base font-semibold text-white transition-colors duration-300 ${
+          submitting
+            ? "cursor-not-allowed bg-slate-400"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
       >
         {submitting ? "Submitting..." : "Submit Application"}
       </button>

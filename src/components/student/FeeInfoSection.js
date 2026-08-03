@@ -1,7 +1,6 @@
 import React from "react";
 import FormField from "../student/FormField";
 import RadioGroup from "../student/RadioGroup";
-import "../../App.css";
 
 const FeeInfoSection = ({ form, onChange, errors, shouldShowFieldError }) => {
   return (
@@ -14,7 +13,7 @@ const FeeInfoSection = ({ form, onChange, errors, shouldShowFieldError }) => {
               href="https://ggu.ac.in/onlinepayment/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#2563eb", textDecoration: "underline" }}
+              className="text-blue-600 underline hover:text-blue-800"
             >
               https://ggu.ac.in/onlinepayment/
             </a>

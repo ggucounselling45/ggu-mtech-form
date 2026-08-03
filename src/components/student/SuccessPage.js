@@ -1,78 +1,37 @@
 import React from "react";
 import banner from "../../assets/banner.png";
-import "../../App.css";
 
 const SuccessPage = ({ onReset }) => {
   return (
-    <div style={{ 
-      maxWidth: 500, 
-      margin: "auto", 
-      textAlign: "center", 
-      padding: "40px 20px" 
-    }}>
+    <div className="mx-auto max-w-lg px-5 py-10 text-center">
       <img
         src={banner}
         alt="GGU Banner"
-        style={{
-          width: '100%',
-          maxWidth: '100%',
-          margin: '0px auto 30px auto',
-          display: 'block',
-          borderRadius: '12px',
-          objectFit: 'contain',
-          background: '#fff'
-        }}
+        className="mx-auto mb-8 block w-full max-w-full rounded-xl bg-white object-contain"
       />
-      
-      <div style={{ 
-        backgroundColor: '#d4edda',
-        border: '1px solid #c3e6cb',
-        borderRadius: '8px',
-        padding: '30px 20px',
-        color: '#155724'
-      }}>
-        <h2 style={{ 
-          color: '#155724', 
-          marginBottom: '20px',
-          fontSize: '24px'
-        }}>
+
+      <div className="rounded-lg border border-green-300 bg-green-100 p-8 text-green-800 shadow-md">
+        <h2 className="mb-5 text-2xl font-bold">
           Response Recorded Successfully!
         </h2>
-        
-        <p style={{ 
-          fontSize: '16px', 
-          marginBottom: '20px',
-          lineHeight: '1.5'
-        }}>
-          Your application for M.Tech Spot/Local Counselling has been submitted successfully. 
-          You will receive a confirmation email shortly.
+
+        <p className="mb-5 text-base leading-7">
+          Your application for M.Tech Spot/Local Counselling has been submitted
+          successfully. You will receive a confirmation email shortly.
         </p>
-        
-        <div style={{
-          backgroundColor: '#fff',
-          border: '1px solid #c3e6cb',
-          borderRadius: '6px',
-          padding: '15px',
-          margin: '20px 0'
-        }}>
-          <p style={{ margin: 0, fontSize: '14px' }}>
-            <strong>Next Steps:</strong><br />
-            Please keep checking your email and the university website for further updates regarding the counselling process.
+
+        <div className="my-5 rounded-md border border-green-300 bg-white p-4">
+          <p className="text-sm leading-6 text-gray-700">
+            <strong>Next Steps:</strong>
+            <br />
+            Please keep checking your email and the university website for
+            further updates regarding the counselling process.
           </p>
         </div>
-        
-        <button 
+
+        <button
           onClick={onReset}
-          style={{
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            padding: '12px 24px',
-            borderRadius: '5px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            marginTop: '20px'
-          }}
+          className="mt-5 rounded-md bg-green-600 px-6 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-green-700 hover:shadow-lg"
         >
           Submit Another Application
         </button>

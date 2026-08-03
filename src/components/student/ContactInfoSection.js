@@ -1,6 +1,5 @@
 import React from "react";
 import FormField from "./FormField";
-import "../../App.css";
 
 const ContactInfoSection = ({
   form,

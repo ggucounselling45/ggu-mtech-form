@@ -10,7 +10,6 @@ import AdminPage from "./pages/AdminPage";
 import StudentBtechPage from "./pages/StudentBtechPage";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotFound from "./components/common/NotFound";
-import "./App.css"; // Global styles for the application
 
 function App() {
   return (

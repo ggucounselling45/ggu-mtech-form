@@ -1,28 +1,40 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import "../../App.css";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
-  const isStudentPage = location.pathname.startsWith('/student');
-  const isAdminPage = location.pathname.startsWith('/admin');
+
+  const isStudentPage = location.pathname.startsWith("/student");
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   return (
-    <header className="app-header">
-      <nav className="nav-container">
-        <div className="logo">
-          <h2>GGU Admission System</h2>
+    <header className="bg-[#6e5838] shadow-md">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div>
+          <h2 className="text-2xl font-bold text-white">
+            GGU Admission System
+          </h2>
         </div>
-        <div className="nav-links">
-          <Link 
-            to="/student" 
-            className={`nav-link ${isStudentPage ? 'active' : ''}`}
+
+        <div className="flex gap-3">
+          <Link
+            to="/student"
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+              isStudentPage
+                ? "bg-white text-[#6e5838]"
+                : "text-white hover:bg-white/20"
+            }`}
           >
             Student Application
           </Link>
-          <Link 
-            to="/admin" 
-            className={`nav-link ${isAdminPage ? 'active' : ''}`}
+
+          <Link
+            to="/admin"
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+              isAdminPage
+                ? "bg-white text-[#6e5838]"
+                : "text-white hover:bg-white/20"
+            }`}
           >
             Admin Dashboard
           </Link>

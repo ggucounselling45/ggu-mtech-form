@@ -6,13 +6,16 @@ const API_BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://ggu-mtech-form-b.vercel.app"
     : "http://localhost:4000";
+
 const LoginPage = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -28,16 +31,13 @@ const LoginPage = ({ onLogin }) => {
     setError("");
 
     try {
-      const requestBody = JSON.stringify(credentials);
-
-      const apiBaseUrl = `${API_BASE_URL}/api/admin/login`;
-      const response = await fetch(apiBaseUrl, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: requestBody,
+        body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
@@ -56,198 +56,70 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "420px",
-        margin: "100px auto",
-        padding: "50px 40px",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        borderRadius: "20px",
-        boxShadow: "0 15px 35px rgba(102, 126, 234, 0.4)",
-        color: "white",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "40px",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "2.5rem",
-            fontWeight: "700",
-            marginBottom: "10px",
-            textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-            letterSpacing: "1px",
-          }}
-        >
-          GGU Admin
-        </h2>
-        <p
-          style={{
-            fontSize: "1.1rem",
-            opacity: "0.9",
-            fontWeight: "300",
-          }}
-        >
-          Admin Portal Login
-        </p>
-      </div>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 px-4">
+      <div className="w-full max-w-md rounded-2xl bg-white/10 p-10 text-white shadow-2xl backdrop-blur-lg">
+        {/* Header */}
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-4xl font-bold tracking-wide">GGU Admin</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "25px" }}>
-          <label
-            style={{
-              display: "block",
-              marginBottom: "8px",
-              fontSize: "0.95rem",
-              fontWeight: "600",
-              opacity: "0.9",
-            }}
-          >
-            Username
-          </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={credentials.email}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "15px 20px",
-              border: "gray 1px solid",
-              borderRadius: "12px",
-              fontSize: "1rem",
-              backgroundColor: "white",
-              color: "black",
-              backdropFilter: "blur(10px)",
-              outline: "none",
-              transition: "all 0.3s ease",
-              boxSizing: "border-box",
-            }}
-            onFocus={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
-              e.target.style.transform = "translateY(-2px)";
-            }}
-            onBlur={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
-              e.target.style.transform = "translateY(0)";
-            }}
-          />
+          <p className="text-lg text-white/80">Admin Portal Login</p>
         </div>
 
-        <div style={{ marginBottom: "30px" }}>
-          <label
-            style={{
-              display: "block",
-              marginBottom: "8px",
-              fontSize: "0.95rem",
-              fontWeight: "600",
-              opacity: "0.9",
-            }}
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "15px 20px",
-              border: "gray 1px solid",
-              borderRadius: "12px",
-              fontSize: "1rem",
-              backgroundColor: "white",
-              color: "black",
-              backdropFilter: "blur(10px)",
-              outline: "none",
-              transition: "all 0.3s ease",
-              boxSizing: "border-box",
-            }}
-            onFocus={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
-              e.target.style.transform = "translateY(-2px)";
-            }}
-            onBlur={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
-              e.target.style.transform = "translateY(0)";
-            }}
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email */}
+          <div>
+            <label className="mb-2 block text-sm font-semibold">Username</label>
 
-        {error && (
-          <div
-            style={{
-              color: "#ff6b6b",
-              backgroundColor: "rgba(255, 107, 107, 0.2)",
-              padding: "12px 15px",
-              borderRadius: "8px",
-              marginBottom: "20px",
-              textAlign: "center",
-              fontSize: "0.9rem",
-              fontWeight: "600",
-            }}
-          >
-            {error}
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={credentials.email}
+              onChange={handleChange}
+              required
+              className="w-full rounded-xl border border-gray-300 bg-white px-5 py-4 text-black outline-none transition duration-300 focus:-translate-y-0.5 focus:border-blue-500 focus:ring-2 focus:ring-blue-400"
+            />
           </div>
-        )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "16px",
-            backgroundColor: loading
-              ? "rgba(69, 128, 237, 1)"
-              : "rgba(78, 187, 121, 1)",
-            border: "2px solid rgba(255, 255, 255, 0.3)",
-            borderRadius: "12px",
-            color: "white",
-            fontSize: "1.1rem",
-            fontWeight: "700",
-            cursor: loading ? "not-allowed" : "pointer",
-            transition: "all 0.3s ease",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
-          }}
-          onMouseEnter={(e) => {
-            if (!loading) {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
-              e.target.style.transform = "translateY(-3px)";
-              e.target.style.boxShadow = "0 10px 20px rgba(0,0,0,0.2)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!loading) {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
-              e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "none";
-            }
-          }}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          {/* Password */}
+          <div>
+            <label className="mb-2 block text-sm font-semibold">Password</label>
 
-      <div
-        style={{
-          marginTop: "30px",
-          fontSize: "0.85rem",
-          color: "rgba(255, 255, 255, 0.7)",
-          textAlign: "center",
-          fontStyle: "italic",
-        }}
-      >
-        🔐 Confidential Admin Access Only
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={credentials.password}
+              onChange={handleChange}
+              required
+              className="w-full rounded-xl border border-gray-300 bg-white px-5 py-4 text-black outline-none transition duration-300 focus:-translate-y-0.5 focus:border-blue-500 focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          {/* Error */}
+          {error && (
+            <div className="rounded-lg bg-red-100 px-4 py-3 text-center text-sm font-semibold text-red-700">
+              {error}
+            </div>
+          )}
+
+          {/* Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full rounded-xl py-4 text-lg font-bold uppercase tracking-wide text-white transition-all duration-300 ${
+              loading
+                ? "cursor-not-allowed bg-blue-500"
+                : "bg-green-500 hover:-translate-y-1 hover:bg-green-600 hover:shadow-xl"
+            }`}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <div className="mt-8 text-center text-sm italic text-white/70">
+          🔐 Confidential Admin Access Only
+        </div>
       </div>
     </div>
   );

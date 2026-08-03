@@ -1,7 +1,7 @@
 import React from "react";
 import FormField from "./FormField";
 import RadioGroup from "./RadioGroup";
-import "../../App.css";
+
 
 const PersonalInfoSection = ({
   form,
