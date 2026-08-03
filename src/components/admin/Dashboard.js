@@ -11,6 +11,7 @@ const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
     const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
+  const [loading, setLoading] = useState(true);
   
   
  const fetchApplications = async () => {
