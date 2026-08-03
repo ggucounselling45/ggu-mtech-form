@@ -20,28 +20,34 @@ const MTechApplications = () => {
   
 
   const fetchApplications = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/applications`,
+      {
         method: "GET",
         credentials: "include",
-      });
-
-      const data = await response.json();
-      console.log("Fetched Applications:", data);
-
-      if (response.ok) {
-        dispatch(setApplications(data));
       }
-    } catch (error) {
-      console.error("Error fetching applications:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    );
 
-  useEffect(() => {
+    const data = await response.json();
+
+    if (response.ok) {
+      dispatch(setApplications(data));
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+}, [dispatch]);
+
+ useEffect(() => {
+  if (!applications.totalApplications) {
     fetchApplications();
-  }, [fetchApplications]);
+  } else {
+    setLoading(false);
+  }
+}, [applications.totalApplications, fetchApplications]);
 
   return (
     <div className="min-h-screen bg-gray-100">

@@ -11,36 +11,33 @@ const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
     const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
-  const [loading, setLoading] = useState(true);
   
   
- const fetchApplications = async () => {
+ const fetchApplications = useCallback(async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/applications`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
 
     const data = await response.json();
-    console.log("Fetched Applications:", data);
 
     if (response.ok) {
       dispatch(setApplications(data));
     }
   } catch (error) {
-    console.error("Error fetching applications:", error);
-  } finally {
-    setLoading(false);
+    console.error(error);
   }
-};
+}, [dispatch]);
 
 useEffect(() => {
-  if (applications.totalApplications === undefined) {
+  if (!applications.totalApplications) {
     fetchApplications();
-  } else {
-    setLoading(false);
   }
-}, []);
+}, [applications.totalApplications, fetchApplications]);
 
   const dashboardCards = [
     {
