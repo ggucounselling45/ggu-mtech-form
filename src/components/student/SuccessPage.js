@@ -1,7 +1,7 @@
 import React from "react";
 import banner from "../../assets/banner.png";
 
-const SuccessPage = ({ onReset }) => {
+const SuccessPage = ({ onReset, course }) => {
   return (
     <div className="mx-auto max-w-lg px-5 py-10 text-center">
       <img
@@ -16,7 +16,7 @@ const SuccessPage = ({ onReset }) => {
         </h2>
 
         <p className="mb-5 text-base leading-7">
-          Your application for M.Tech Spot/Local Counselling has been submitted
+          Your application for {course} Spot/Local Counselling has been submitted
           successfully. You will receive a confirmation email shortly.
         </p>
 

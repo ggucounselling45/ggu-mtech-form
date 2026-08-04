@@ -169,14 +169,15 @@ const Dashboard = () => {
         <div className="font-semibold  text-lg">
           M.Tech <span className="font-normal">Admission Form Status</span>
         </div>
-        .
         {formStatus?.isFormActive ? (
-          <div className="text-green-600">
-            Students can currently submit applications.
+         <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-green-500"></span>
+            <span className="font-medium text-green-700">Active</span>
           </div>
         ) : (
-          <div className="text-red-600">
-            Students cannot submit applications.
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-500"></span>
+            <span className="font-medium text-red-700">Inactive</span>
           </div>
         )}
         <input
@@ -192,14 +193,15 @@ const Dashboard = () => {
         <div className="font-semibold  text-lg">
           B.Tech <span className="font-normal">Admission Form Status</span>
         </div>
-        .
         {btechFormStatus?.isFormActive ? (
-          <div className="text-green-600">
-            Students can currently submit applications.
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-green-500"></span>
+            <span className="font-medium text-green-700">Active</span>
           </div>
         ) : (
-          <div className="text-red-600">
-            Students cannot submit applications.
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-500"></span>
+            <span className="font-medium text-red-700">Inactive</span>
           </div>
         )}
         <input

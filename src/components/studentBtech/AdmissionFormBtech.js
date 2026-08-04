@@ -13,6 +13,14 @@ const isPdfFile = (file) =>
 
 const validateEmail = (value) => /\S+@\S+\.\S+/.test(value);
 
+const isImageFile = (file) => {
+  if (!file) return false;
+
+  const allowedTypes = ["image/jpeg", "image/png"];
+  return allowedTypes.includes(file.type);
+};
+
+
 const validateMobile = (value) =>
   /^(?:\+91[-\s]?)?[6-9]\d{9}$/.test(value.replace(/\s+/g, ""));
 
@@ -79,7 +87,7 @@ const AdmissionForm = ({
     address: "",
     mobile: "",
     altMobile: "",
-    jeeMainRoll: "",
+    jeeMainApplicationNumber: "",
     jeeMainAllIndiaRank: "",
     twelfthBoardName: "",
     twelfthPassingYear: "",
@@ -109,7 +117,6 @@ const AdmissionForm = ({
     pwdCert: null,
 
     allotmentLetter: null,
-    DomicileCert: null,
     jeeMainScoreCard: null,
 
     feeReceipt: null,
@@ -154,6 +161,12 @@ const AdmissionForm = ({
           : "Select a valid category.";
       case "address":
         return value.trim() ? "" : "Address is required.";
+      case "passportPhoto":
+        return value
+          ? isImageFile(value)
+            ? ""
+            : "Passport size photograph must be a JPG, JPEG, or PNG file."
+          : getRequiredFileMessage("Passport size photograph");
       case "mobile":
         if (!value.trim()) {
           return "Mobile Number is required.";
@@ -484,6 +497,7 @@ const AdmissionForm = ({
         shouldShowFieldError={shouldShowFieldError}
       />
       <DeclarationSection
+        course="B.Tech"
         form={form}
         onChange={handleChange}
         errors={fieldErrors}

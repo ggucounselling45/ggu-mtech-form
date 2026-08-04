@@ -84,7 +84,7 @@ const StudentPage = () => {
   }
 
   if (isSubmitted) {
-    return <SuccessPage onReset={resetForm} />;
+    return <SuccessPage onReset={resetForm} course="M.Tech"/>;
   }
 
   return (

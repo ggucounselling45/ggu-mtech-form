@@ -92,7 +92,7 @@ const StudentBtechPage = () => {
   }
 
   if (isSubmitted) {
-    return <SuccessPage onReset={resetForm} />;
+    return <SuccessPage onReset={resetForm} course="B.Tech" />;
   }
 
   return (

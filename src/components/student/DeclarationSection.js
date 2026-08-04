@@ -2,6 +2,7 @@ import React from "react";
 import FormGroup from "./FormGroup";
 
 const DeclarationSection = ({
+  course,
   form,
   onChange,
   errors,
@@ -21,7 +22,7 @@ const DeclarationSection = ({
             I, hereby, declare that all the particulars stated by me in this
             application form are true to the best of my knowledge and belief. I
             have read the guideline for spot counselling for admission against
-            vacant seat in the M.Tech first year session 2026-27 of GGU,
+            vacant seat in the {course} first year session 2026-27 of GGU,
             Bilaspur uploaded on the University Website{" "}
             <a
               href="https://ggu.ac.in/"

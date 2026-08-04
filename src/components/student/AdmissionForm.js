@@ -561,6 +561,7 @@ const AdmissionForm = ({
         shouldShowFieldError={shouldShowFieldError}
       />
       <DeclarationSection
+      course="M.Tech"
         form={form}
         onChange={handleChange}
         errors={fieldErrors}

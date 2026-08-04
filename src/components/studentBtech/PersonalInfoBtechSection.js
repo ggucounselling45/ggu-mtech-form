@@ -89,23 +89,23 @@ const PersonalInfoBtechSection = ({
         error={shouldShowFieldError("religion") ? errors.religion : ""}
       />
       <FormField
-        label="JEE Main Roll Number"
-        name="jeeMainRoll"
+        label="Enter JEE Main Application Number"
+        name="jeeMainApplicationNumber"
         type="text"
-        value={form.jeeMainRoll}
+        value={form.jeeMainApplicationNumber}
         onChange={onChange}
         required
-        helperText="Enter the JEE Main Roll Number"
-        error={shouldShowFieldError("jeeMainRoll") ? errors.jeeMainRoll : ""}
+        helperText="Enter the JEE Main Application Number"
+        error={shouldShowFieldError("jeeMainApplicationNumber") ? errors.jeeMainApplicationNumber : ""}
       />
       <FormField
-        label="JEE Main All India Rank"
+        label="Enter JEE Main CRL Rank (Do Not Enter the Category Rank)"
         name="jeeMainAllIndiaRank"
         type="text"
         value={form.jeeMainAllIndiaRank}
         onChange={onChange}
         required
-        helperText="Enter the JEE Main All India Rank"
+        helperText="Enter the JEE Main CRL Rank"
         error={
           shouldShowFieldError("jeeMainAllIndiaRank")
             ? errors.jeeMainAllIndiaRank
@@ -158,15 +158,16 @@ const PersonalInfoBtechSection = ({
             value={form.branchName}
             onChange={onChange}
             options={[
-              "Computer Science & Engineering",
+              "Computer Science",
               "Information Technology",
-              "Structural Engineering",
               "Electronics & Communication Engineering",
-              "CAD CAM & Robotics",
-              "Chemical Engineering",
+              "Electrical  Engineering",
               "Mechanical Engineering",
-              "Water Resources & Environmental Engineering",
-              "Geotechnical Engineering",
+              "Chemical Engineering",
+              "Industrial & Production Engineering",
+              "Artificial Intelligence & Data Science",
+              "Animation & VFX",
+              "Civil Engineering",
             ]}
             required
             helperText="Required only when admission status is Yes."
@@ -193,10 +194,10 @@ const PersonalInfoBtechSection = ({
         label="Upload Passport Size Photograph"
         name="passportPhoto"
         type="file"
-        accept=".pdf"
+        accept=".jpg,.jpeg,.png"
         onChange={onChange}
         required
-        helperText="PDF only."
+        helperText="Image files only."
         error={
           shouldShowFieldError("passportPhoto") ? errors.passportPhoto : ""
         }
@@ -229,11 +230,15 @@ const PersonalInfoBtechSection = ({
       <FormField
         label="Enter 12 passing year"
         name="twelfthPassingYear"
-        type="date"
+        type="select"
         value={form.twelfthPassingYear}
         onChange={onChange}
         required
-        
+        options={[
+          "2024",
+          "2025",
+          "2026",
+        ]}
         error={shouldShowFieldError("twelfthPassingYear") ? errors.twelfthPassingYear : ""}
       />
 
@@ -357,16 +362,6 @@ const PersonalInfoBtechSection = ({
         />
       )}
 
-      <FormField
-        label="Upload Domicile Certificate (PDF)"
-        name="DomicileCert"
-        type="file"
-        accept=".pdf"
-        onChange={onChange}
-        required
-        helperText="PDF only."
-        error={shouldShowFieldError("DomicileCert") ? errors.domicileCert : ""}
-      />
       <FormField
         label="JEE Main Scorecard (PDF)"
         name="jeeMainScoreCard"
