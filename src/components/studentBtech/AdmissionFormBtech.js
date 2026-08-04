@@ -161,12 +161,6 @@ const AdmissionForm = ({
           : "Select a valid category.";
       case "address":
         return value.trim() ? "" : "Address is required.";
-      case "passportPhoto":
-        return value
-          ? isImageFile(value)
-            ? ""
-            : "Passport size photograph must be a JPG, JPEG, or PNG file."
-          : getRequiredFileMessage("Passport size photograph");
       case "mobile":
         if (!value.trim()) {
           return "Mobile Number is required.";
