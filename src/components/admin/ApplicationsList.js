@@ -17,7 +17,7 @@ const ApplicationsList = ({ applications }) => {
       app.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.mobile?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app._id?.toLowerCase().includes(searchTerm.toLowerCase()),
+      app.applicationId?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const viewApplication = (application) => {
@@ -93,7 +93,7 @@ const ApplicationsList = ({ applications }) => {
             <h4 className="font-bold text-slate-600">
               ApplicationId:
               <span className="text-blue-600">
-                {" " + selectedApplication._id}
+                {" " + selectedApplication.applicationId}
               </span>
             </h4>
           </div>
