@@ -93,7 +93,7 @@ const MTechApplications = () => {
         ) : (
           <>
             {activeTab === "applications" && (
-              <ApplicationsList applications={applications.applications} />
+              <ApplicationsList applications={applications.applications} fetchApplications={fetchApplications} />
             )}
 
             {activeTab === "statistics" && (

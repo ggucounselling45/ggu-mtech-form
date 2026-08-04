@@ -1,6 +1,7 @@
 import { React, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setApplications } from "../../app/slice/mtechSlice";
+import { setBtechApplications } from "../../app/slice/btechSlice";
 
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
@@ -11,6 +12,7 @@ const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
+  const btechApplications = useSelector((store) => store.btech.applications);
   const [formStatus, setFormStatus] = useState();
   const [btechFormStatus, setBtechFormStatus] = useState();
 
@@ -25,6 +27,23 @@ const Dashboard = () => {
 
       if (response.ok) {
         dispatch(setApplications(data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [dispatch]);
+
+   const fetchBtechApplications = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/btechApplications`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        dispatch(setBtechApplications(data));
       }
     } catch (error) {
       console.error(error);
@@ -111,10 +130,11 @@ const Dashboard = () => {
   useEffect(() => {
     if (!applications.totalApplications) {
       fetchApplications();
+      fetchBtechApplications();
     }
     getFormStatus();
     getBtechFormStatus();
-  }, [applications.totalApplications, fetchApplications]);
+  }, [applications.totalApplications, fetchApplications, fetchBtechApplications]);
 
   const dashboardCards = [
     {
@@ -123,7 +143,7 @@ const Dashboard = () => {
     },
     {
       title: "B.Tech Applications",
-      value: 0,
+      value: btechApplications.totalApplications,
     },
     {
       title: "Registered Users",
@@ -131,7 +151,7 @@ const Dashboard = () => {
     },
     {
       title: "Total Submissions",
-      value: applications.totalApplications,
+      value: applications.totalApplications + btechApplications.totalApplications,
     },
   ];
 
