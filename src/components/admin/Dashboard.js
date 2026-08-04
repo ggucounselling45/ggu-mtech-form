@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect,useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setApplications } from "../../app/slice/mtechSlice";
 
@@ -11,7 +11,8 @@ const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
-  const [ formStatus, setFormStatus] = useState();
+  const [formStatus, setFormStatus] = useState();
+  const [btechFormStatus, setBtechFormStatus] = useState();
 
   const fetchApplications = useCallback(async () => {
     try {
@@ -47,20 +48,62 @@ const Dashboard = () => {
     }
   };
 
+  const getBtechFormStatus = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/btech-form-status`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setBtechFormStatus(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const toggleFormStatus = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/toggle-form-status`, {
-        method: "PUT",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/toggle-form-status`,
+        {
+          method: "PUT",
+          credentials: "include",
+        },
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         setFormStatus(data);
       }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
+  };
+
+  const toggleBtechFormStatus = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/toggle-btech-form-status`,
+        {
+          method: "PUT",
+          credentials: "include",
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setBtechFormStatus(data);
+      }
+    } catch (error) {
       console.error(error);
     }
   };
@@ -70,6 +113,7 @@ const Dashboard = () => {
       fetchApplications();
     }
     getFormStatus();
+    getBtechFormStatus();
   }, [applications.totalApplications, fetchApplications]);
 
   const dashboardCards = [
@@ -122,20 +166,46 @@ const Dashboard = () => {
       </div>
       {/* {Mtech Applications active and inactive} */}
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-row justify-between gap-2">
-        <div className="font-semibold  text-lg">Admission Form Status</div>
-            {formStatus?.isFormActive ? (
-              <div className="text-green-600">
-                Students can currently submit applications.
-              </div>
-            ) : (
-              <div className="text-red-600">
-                Students cannot submit applications.
-              </div>
-            )}
+        <div className="font-semibold  text-lg">
+          M.Tech <span className="font-normal">Admission Form Status</span>
+        </div>
+        .
+        {formStatus?.isFormActive ? (
+          <div className="text-green-600">
+            Students can currently submit applications.
+          </div>
+        ) : (
+          <div className="text-red-600">
+            Students cannot submit applications.
+          </div>
+        )}
         <input
           onChange={toggleFormStatus}
           type="checkbox"
           checked={formStatus?.isFormActive}
+          className="toggle toggle-success"
+        />
+      </div>
+
+      {/* {Btech Applications active and inactive} */}
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-row justify-between gap-2">
+        <div className="font-semibold  text-lg">
+          B.Tech <span className="font-normal">Admission Form Status</span>
+        </div>
+        .
+        {btechFormStatus?.isFormActive ? (
+          <div className="text-green-600">
+            Students can currently submit applications.
+          </div>
+        ) : (
+          <div className="text-red-600">
+            Students cannot submit applications.
+          </div>
+        )}
+        <input
+          onChange={toggleBtechFormStatus}
+          type="checkbox"
+          checked={btechFormStatus?.isFormActive}
           className="toggle toggle-success"
         />
       </div>

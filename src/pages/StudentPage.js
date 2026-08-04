@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdmissionForm from "../components/student/AdmissionForm";
 import SuccessPage from "../components/student/SuccessPage";
 
-const API_BASE_URL =
+  const API_BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://ggu-mtech-form-b.vercel.app"
     : "http://localhost:4000";
@@ -67,8 +67,8 @@ const StudentPage = () => {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f5d8bb] p-6">
         <div className="max-w-xl rounded-xl bg-white p-10 text-center shadow-lg">
-          <h1 className="mb-4 text-3xl font-bold text-red-600">
-            Admission Form Closed
+          <h1 className="mb-4 text-2xl font-bold text-red-600">
+            Application Form Submission Process is Over...
           </h1>
 
           <p className="text-lg text-gray-600">

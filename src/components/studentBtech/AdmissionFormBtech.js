@@ -453,11 +453,12 @@ const AdmissionForm = ({
     hasSubmittedOnce || touchedFields[name];
 
   return (
-<form
-  onSubmit={handleSubmit}
-  className="mx-auto my-10 max-w-2xl rounded-xl border-t-[12px] border-t-[#6e5838] bg-[#ebe9e9] px-7 py-9 shadow-lg"
->      <Header title="APPLICATION FORM FOR B.TECH. SPOT/LOCAL COUNSELLING-2026-27" />
-
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto max-w-lg rounded-xl border-t-[12px] border-t-[#6e5838] bg-[#ebe9e9] px-7 py-9 shadow-lg"
+    >
+      {" "}
+      <Header title="APPLICATION FORM FOR B.TECH. SPOT/LOCAL COUNSELLING-2026-27" />
       <PersonalInfoBtechSection
         form={form}
         onChange={handleChange}
@@ -488,34 +489,32 @@ const AdmissionForm = ({
         errors={fieldErrors}
         shouldShowFieldError={shouldShowFieldError}
       />
-
       {submitting && (
-  <div className="mt-5 mb-5 flex items-center gap-4 rounded-lg border border-blue-200 bg-blue-50 p-5">
-    <div className="h-6 w-6 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
+        <div className="mt-5 mb-5 flex items-center gap-4 rounded-lg border border-blue-200 bg-blue-50 p-5">
+          <div className="h-6 w-6 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600"></div>
 
-    <div>
-      <p className="font-semibold text-blue-700">
-        Submitting your application...
-      </p>
+          <div>
+            <p className="font-semibold text-blue-700">
+              Submitting your application...
+            </p>
 
-      <p className="mt-1 text-sm text-slate-600">
-        Please don't refresh or close this page.
-      </p>
-    </div>
-  </div>
-)}
-
+            <p className="mt-1 text-sm text-slate-600">
+              Please don't refresh or close this page.
+            </p>
+          </div>
+        </div>
+      )}
       <button
-  type="submit"
-  disabled={submitting}
-  className={`mt-5 w-full rounded-lg py-3 text-base font-semibold text-white transition-colors duration-300 ${
-    submitting
-      ? "cursor-not-allowed bg-slate-400"
-      : "bg-blue-600 hover:bg-blue-700"
-  }`}
->
-  {submitting ? "Submitting..." : "Submit Application"}
-</button>
+        type="submit"
+        disabled={submitting}
+        className={`mt-5 w-full rounded-lg py-3 text-base font-semibold text-white transition-colors duration-300 ${
+          submitting
+            ? "cursor-not-allowed bg-slate-400"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
+      >
+        {submitting ? "Submitting..." : "Submit Application"}
+      </button>
     </form>
   );
 };
