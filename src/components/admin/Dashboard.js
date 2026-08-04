@@ -1,4 +1,4 @@
-import {React, useCallback, useEffect} from "react";
+import { React, useCallback, useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setApplications } from "../../app/slice/mtechSlice";
 
@@ -9,35 +9,68 @@ const API_BASE_URL =
 
 const Dashboard = () => {
   const admin = useSelector((state) => state.admin.admin.admin);
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const applications = useSelector((store) => store.mtech.applications);
-  
-  
- const fetchApplications = useCallback(async () => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/applications`,
-      {
+  const [ formStatus, setFormStatus] = useState();
+
+  const fetchApplications = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/applications`, {
         method: "GET",
         credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        dispatch(setApplications(data));
       }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch(setApplications(data));
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-}, [dispatch]);
+  }, [dispatch]);
 
-useEffect(() => {
-  if (!applications.totalApplications) {
-    fetchApplications();
-  }
-}, [applications.totalApplications, fetchApplications]);
+  const getFormStatus = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/form-status`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormStatus(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const toggleFormStatus = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/toggle-form-status`, {
+        method: "PUT",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormStatus(data);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!applications.totalApplications) {
+      fetchApplications();
+    }
+    getFormStatus();
+  }, [applications.totalApplications, fetchApplications]);
 
   const dashboardCards = [
     {
@@ -54,7 +87,7 @@ useEffect(() => {
     },
     {
       title: "Total Submissions",
-      value: applications.totalApplications ,
+      value: applications.totalApplications,
     },
   ];
 
@@ -87,8 +120,29 @@ useEffect(() => {
           </div>
         ))}
       </div>
+      {/* {Mtech Applications active and inactive} */}
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-row justify-between gap-2">
+        <div className="font-semibold  text-lg">Admission Form Status</div>
+            {formStatus?.isFormActive ? (
+              <div className="text-green-600">
+                Students can currently submit applications.
+              </div>
+            ) : (
+              <div className="text-red-600">
+                Students cannot submit applications.
+              </div>
+            )}
+        <input
+          onChange={toggleFormStatus}
+          type="checkbox"
+          checked={formStatus?.isFormActive}
+          className="toggle toggle-success"
+        />
+      </div>
     </div>
   );
 };
 
 export default Dashboard;
+
+//  Students cannot submit applications.
