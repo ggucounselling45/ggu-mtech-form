@@ -18,11 +18,11 @@ function App() {
         <div className="App">
           <Routes>
             {/* Default redirect to student page */}
-            <Route path="/" element={<Navigate to="/student" replace />} />
+            <Route path="/" element={<Navigate to="/mtech" replace />} />
 
             {/* Student Application Routes */}
             <Route
-              path="/student"
+              path="/mtech"
               element={
                 <ErrorBoundary>
                   <StudentPage />
@@ -32,7 +32,7 @@ function App() {
 
             {/* Btech Student page */}
             <Route
-              path="/studentBtech"
+              path="/btech"
               element={
                 <ErrorBoundary>
                   <StudentBtechPage />
@@ -55,7 +55,7 @@ function App() {
 
             {/* Fallback route - redirect unknown routes to 404 or student page */}
             <Route path="*" element={<Navigate to="/404" replace />} />
-            {/* Alternative: <Route path="*" element={<Navigate to="/student" replace />} /> */}
+            {/* Alternative: <Route path="*" element={<Navigate to="/mtech" replace />} /> */}
           </Routes>
         </div>
       </Router>
