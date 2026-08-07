@@ -186,7 +186,7 @@ const AdmissionForm = ({
       case "refNo":
         return value.trim() ? "" : "Reference Number is required.";
       case "amount":
-        return ["700", "1000"].includes(value)
+        return ["750", "1000"].includes(value)
           ? ""
           : "Please select the registration fee amount.";
       case "bank":
@@ -478,7 +478,8 @@ const AdmissionForm = ({
         errors={fieldErrors}
         shouldShowFieldError={shouldShowFieldError}
       />
-      <FeeInfoSection
+      <FeeInfoSection 
+      amount={"750"}
         form={form}
         onChange={handleChange}
         errors={fieldErrors}

@@ -2,7 +2,7 @@ import React from "react";
 import FormField from "../student/FormField";
 import RadioGroup from "../student/RadioGroup";
 
-const FeeInfoSection = ({ form, onChange, errors, shouldShowFieldError }) => {
+const FeeInfoSection = ({ amount,form, onChange, errors, shouldShowFieldError }) => {
   return (
     <>
       <FormField
@@ -28,13 +28,14 @@ const FeeInfoSection = ({ form, onChange, errors, shouldShowFieldError }) => {
       />
 
       <RadioGroup
+      amount={amount}
         label="Amount"
         name="amount"
         value={form.amount}
         onChange={onChange}
         options={[
           { value: "1000", label: "1000/-" },
-          { value: "700", label: "700/-" },
+          { value:  amount , label: `${amount}/-` },
         ]}
         required
         helperText="Select the exact fee amount you paid."

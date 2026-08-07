@@ -549,6 +549,7 @@ const AdmissionForm = ({
         shouldShowFieldError={shouldShowFieldError}
       />
       <FeeInfoSection
+      amount={"700"}
         form={form}
         onChange={handleChange}
         errors={fieldErrors}

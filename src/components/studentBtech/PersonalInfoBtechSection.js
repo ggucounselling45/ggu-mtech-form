@@ -158,7 +158,7 @@ const PersonalInfoBtechSection = ({
             value={form.branchName}
             onChange={onChange}
             options={[
-              "Computer Science",
+              "Computer Science & Engineering",
               "Information Technology",
               "Electronics & Communication Engineering",
               "Electrical  Engineering",
