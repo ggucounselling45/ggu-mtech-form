@@ -25,7 +25,7 @@ const PersonalInfoSection = ({
               "Electronics & Communication Engineering",
               "CAD CAM & Robotics",
               "Chemical Engineering",
-              "Mechanical Engineering",
+              "Machine Design",
               "Water Resources & Environmental Engineering",
               "Geotechnical Engineering",
               "Energy & Environmental Engineering",
@@ -516,7 +516,7 @@ const PersonalInfoSection = ({
               "Electronics & Communication Engineering",
               "CAD CAM & Robotics",
               "Chemical Engineering",
-              "Mechanical Engineering",
+              "Machine Design",
               "Water Resources & Environmental Engineering",
               "Geotechnical Engineering",
             ]}
